@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-iron-50: #f6f7f9;
+  --color-iron-100: #eceef2;
+  --color-iron-200: #d5dae3;
+  --color-iron-300: #b0b9cb;
+  --color-iron-400: #8593ad;
+  --color-iron-500: #667593;
+  --color-iron-600: #515e7a;
+  --color-iron-700: #434d63;
+  --color-iron-800: #3a4254;
+  --color-iron-900: #333a48;
+  --color-iron-950: #22262f;
+
+  --color-forge-50: #fff8ed;
+  --color-forge-100: #ffefd4;
+  --color-forge-200: #ffdba9;
+  --color-forge-300: #ffc072;
+  --color-forge-400: #ff9b39;
+  --color-forge-500: #fe7d12;
+  --color-forge-600: #ef6308;
+  --color-forge-700: #c64a09;
+  --color-forge-800: #9d3a10;
+  --color-forge-900: #7e3210;
+  --color-forge-950: #441706;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-iron-300);
+  border-radius: 3px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-iron-400);
+}
+
+/* Chat message animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Pulse for streaming indicator */
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+.streaming-dot {
+  animation: pulse-dot 1.4s infinite;
+}
+.streaming-dot:nth-child(2) { animation-delay: 0.2s; }
+.streaming-dot:nth-child(3) { animation-delay: 0.4s; }
