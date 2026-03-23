@@ -1,6 +1,6 @@
 # IronForge
 
-**AI-powered wizard to help ironworkers start their contracting business in Washington or Oregon.**
+**AI-powered wizard to help ironworkers start their contracting business in all 50 US states.**
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
@@ -10,7 +10,7 @@
 
 ## Overview
 
-IronForge is a free, step-by-step web application that walks ironworkers through everything they need to launch a legitimate contracting business in Washington or Oregon. It combines a structured 6-phase wizard with an AI mentor powered by Claude that answers questions in plain English — no jargon, no guesswork.
+IronForge is a free, step-by-step web application that walks ironworkers through everything they need to launch a legitimate contracting business in all 50 US states. It combines a structured 6-phase wizard with an AI mentor powered by Claude that answers questions in plain English — no jargon, no guesswork.
 
 The app covers LLC formation, contractor licensing, surety bonding, insurance, small business certifications, and federal contracting prep, with state-specific requirements, real cost estimates, and direct links to official forms and agencies.
 

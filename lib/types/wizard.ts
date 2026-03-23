@@ -1,5 +1,5 @@
 export interface UserProfile {
-  state: "WA" | "OR" | null;
+  state: string | null;
   isVeteran: boolean;
   isDisabledVeteran: boolean;
   isMinority: boolean;

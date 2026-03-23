@@ -13,7 +13,7 @@ export default function WizardLayout({
 }) {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
-  const [userState, setUserState] = useState<UserState>(DEFAULT_STATE);
+  const [, setUserState] = useState<UserState>(DEFAULT_STATE);
 
   useEffect(() => {
     const state = loadUserState();
@@ -27,8 +27,17 @@ export default function WizardLayout({
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-iron-400">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-cyber-black">
+        <div className="text-center space-y-3">
+          <div className="text-neon-cyan font-mono text-sm animate-neon-pulse text-glow-cyan">
+            INITIALIZING FORGE...
+          </div>
+          <div className="flex gap-1.5 justify-center">
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, use } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { loadUserState, saveUserState } from "@/lib/store/user-profile";
 import {
@@ -19,11 +19,11 @@ import {
 import type { StateCode } from "@/content/phases";
 import type { UserState } from "@/lib/types/wizard";
 import type { ChatMessage, ChatState } from "@/lib/types/chat";
-import type { Step } from "@/lib/types/content";
 import { DEFAULT_STATE } from "@/lib/types/wizard";
 import { ProgressSidebar } from "@/components/wizard/progress-sidebar";
 import { StepContent } from "@/components/wizard/step-content";
 import { ChatPanel } from "@/components/wizard/chat-panel";
+import { MessageSquare } from "lucide-react";
 
 export default function WizardStepPage({
   params,
@@ -83,8 +83,17 @@ export default function WizardStepPage({
   const stateCode = userState.profile.state as StateCode | null;
   if (!loaded || !stateCode) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-iron-400">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-cyber-black">
+        <div className="text-center space-y-3">
+          <div className="text-neon-cyan font-mono text-sm animate-neon-pulse text-glow-cyan">
+            LOADING MODULE...
+          </div>
+          <div className="flex gap-1.5 justify-center">
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+            <span className="streaming-dot w-2 h-2 bg-neon-cyan rounded-full inline-block" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -95,14 +104,14 @@ export default function WizardStepPage({
 
   if (!step || !phaseDef) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-iron-500">
-          Step not found.{" "}
+      <div className="min-h-screen flex items-center justify-center bg-cyber-black">
+        <div className="text-text-muted font-mono text-sm">
+          MODULE NOT FOUND.{" "}
           <button
             onClick={() => router.push("/")}
-            className="text-forge-600 underline"
+            className="text-neon-cyan hover:text-glow-cyan underline"
           >
-            Go home
+            Return to base
           </button>
         </div>
       </div>
@@ -120,7 +129,12 @@ export default function WizardStepPage({
   function handleToggleItem(itemId: string) {
     const updated = {
       ...userState,
-      progress: toggleChecklistItem(userState.progress, phaseId, stepId, itemId),
+      progress: toggleChecklistItem(
+        userState.progress,
+        phaseId,
+        stepId,
+        itemId
+      ),
     };
     setUserState(updated);
     saveUserState(updated);
@@ -147,7 +161,6 @@ export default function WizardStepPage({
     setIsStreaming(true);
     setStreamingContent("");
 
-    // Prepare messages for API
     const allMessages = getStepMessages(updatedChat, phaseId, stepId);
     const apiMessages = allMessages.map((m) => ({
       role: m.role,
@@ -198,7 +211,6 @@ export default function WizardStepPage({
         }
       }
 
-      // Save assistant message
       const assistantMsg: ChatMessage = {
         id: `msg-${Date.now()}-assistant`,
         role: "assistant",
@@ -216,7 +228,7 @@ export default function WizardStepPage({
         id: `msg-${Date.now()}-error`,
         role: "assistant",
         content:
-          "Sorry, I couldn't connect to the AI service. Make sure your ANTHROPIC_API_KEY is set and try again.",
+          "Connection to AI service failed. Verify ANTHROPIC_API_KEY is configured.",
         timestamp: Date.now(),
         stepId,
       };
@@ -230,7 +242,7 @@ export default function WizardStepPage({
   }
 
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex bg-cyber-black tron-grid">
       <ProgressSidebar
         currentPhaseId={phaseId}
         currentStepId={stepId}
@@ -255,19 +267,21 @@ export default function WizardStepPage({
       {isMobile && chatCollapsed && (
         <button
           onClick={() => setChatCollapsed(false)}
-          className="fixed bottom-4 right-4 w-14 h-14 bg-forge-600 text-white rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-forge-700 transition-colors z-50"
+          className="fixed bottom-4 right-4 w-14 h-14 rounded-full flex items-center justify-center z-50 btn-neon-magenta border-2 border-neon-magenta/50"
+          style={{
+            boxShadow:
+              "0 0 20px rgba(255, 0, 170, 0.3), 0 0 40px rgba(255, 0, 170, 0.1)",
+          }}
         >
-          💬
+          <MessageSquare className="w-5 h-5 text-neon-magenta" />
         </button>
       )}
 
-      {/* Chat panel - fixed overlay on mobile */}
+      {/* Chat panel */}
       {(!isMobile || !chatCollapsed) && (
         <div
           className={
-            isMobile
-              ? "fixed inset-0 z-50 bg-white"
-              : ""
+            isMobile ? "fixed inset-0 z-50 bg-cyber-darker" : ""
           }
         >
           <ChatPanel

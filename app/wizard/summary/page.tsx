@@ -7,7 +7,10 @@ import { PHASE_DEFINITIONS, getPhaseContent } from "@/content/phases";
 import type { StateCode } from "@/content/phases";
 import type { UserState } from "@/lib/types/wizard";
 import { DEFAULT_STATE } from "@/lib/types/wizard";
+import { STATE_REGISTRY } from "@/content/state-registry";
 import Link from "next/link";
+import { ArrowLeft, Printer, Check, Circle } from "lucide-react";
+import { IBeamIcon } from "@/components/ui/ibeam-icon";
 
 export default function SummaryPage() {
   const router = useRouter();
@@ -71,32 +74,51 @@ export default function SummaryPage() {
     totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-iron-50">
-      <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
+    <div className="min-h-screen bg-cyber-black tron-grid">
+      <div className="max-w-4xl mx-auto px-4 py-8 md:py-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-10">
-          <div className="text-5xl mb-4">⚒️</div>
-          <h1 className="text-3xl font-bold text-iron-900 mb-2">
-            Iron<span className="text-forge-600">Forge</span> Progress Summary
+        <div className="text-center mb-10 animate-fade-in-up">
+          <div className="flex justify-center mb-4">
+            <IBeamIcon className="w-10 h-10 text-neon-cyan animate-neon-pulse" />
+          </div>
+          <h1 className="text-3xl font-mono font-bold text-text-primary mb-2">
+            IRON<span className="text-neon-cyan text-glow-cyan">FORGE</span>{" "}
+            <span className="text-text-secondary">STATUS</span>
           </h1>
-          <p className="text-iron-600">
-            {userState.profile.state === "WA" ? "Washington" : "Oregon"} •{" "}
-            {userState.profile.businessName || "Your Ironwork Business"}
+          <p className="text-text-muted font-mono text-sm">
+            {userState.profile.state && STATE_REGISTRY[userState.profile.state]
+              ? `${STATE_REGISTRY[userState.profile.state].emoji} ${STATE_REGISTRY[userState.profile.state].name.toUpperCase()}`
+              : userState.profile.state}{" "}
+            • {userState.profile.businessName || "IRONWORK CONTRACTOR"}
           </p>
-          <div className="mt-4 inline-flex items-center gap-3 bg-white border border-iron-200 rounded-full px-6 py-2">
-            <span className="text-sm text-iron-600">Overall Progress</span>
-            <span className="text-lg font-bold text-forge-600">
+
+          {/* Overall progress */}
+          <div className="mt-6 inline-flex items-center gap-4 bg-cyber-dark border border-cyber-border rounded-full px-6 py-3">
+            <span className="text-xs text-text-muted font-mono uppercase tracking-wider">
+              Mission Progress
+            </span>
+            <span className="text-xl font-mono font-bold text-neon-cyan text-glow-cyan">
               {overallPercent}%
             </span>
-            <span className="text-sm text-iron-400">
-              ({completedItems}/{totalItems} items)
+            <span className="text-xs text-text-muted font-mono">
+              ({completedItems}/{totalItems})
             </span>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-4 max-w-md mx-auto">
+            <div className="w-full h-2 bg-cyber-surface rounded-full overflow-hidden">
+              <div
+                className="neon-progress-bar h-full"
+                style={{ width: `${overallPercent}%` }}
+              />
+            </div>
           </div>
         </div>
 
         {/* Phase summaries */}
         <div className="space-y-6">
-          {phaseSummaries.map((phase) => {
+          {phaseSummaries.map((phase, phaseIdx) => {
             const phasePercent =
               phase.total > 0
                 ? Math.round((phase.completed / phase.total) * 100)
@@ -105,36 +127,45 @@ export default function SummaryPage() {
             return (
               <div
                 key={phase.id}
-                className="bg-white border border-iron-200 rounded-xl overflow-hidden"
+                className={`bg-cyber-dark border border-cyber-border rounded-xl overflow-hidden animate-fade-in-up stagger-${Math.min(phaseIdx + 1, 6)}`}
               >
-                <div className="p-5 border-b border-iron-100 flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-iron-900">
+                <div className="p-5 border-b border-cyber-border/50 flex items-center justify-between relative">
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent" />
+                  <h2 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                    <span className="text-neon-cyan mr-2">
+                      {String(phaseIdx + 1).padStart(2, "0")}
+                    </span>
                     {phase.title}
                   </h2>
                   <div className="flex items-center gap-3">
-                    <div className="w-24 h-2 bg-iron-100 rounded-full overflow-hidden">
+                    <div className="w-24 h-1.5 bg-cyber-surface rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-forge-500 rounded-full transition-all"
+                        className="neon-progress-bar h-full"
                         style={{ width: `${phasePercent}%` }}
                       />
                     </div>
-                    <span className="text-sm text-iron-500">
+                    <span className="text-xs text-text-muted font-mono">
                       {phase.completed}/{phase.total}
                     </span>
                   </div>
                 </div>
 
-                <div className="divide-y divide-iron-50">
+                <div className="divide-y divide-cyber-border/30">
                   {phase.steps.map((step) => (
                     <div key={step.id} className="p-4">
                       <Link
                         href={`/wizard/${phase.id}/${step.id}`}
-                        className="flex items-center justify-between mb-2 hover:text-forge-600"
+                        className="flex items-center justify-between mb-2 hover:text-neon-cyan transition-colors group"
                       >
-                        <span className="text-sm font-medium text-iron-800">
-                          {step.visited ? "✓" : "○"} {step.title}
+                        <span className="text-xs font-mono font-medium text-text-secondary group-hover:text-neon-cyan flex items-center gap-2">
+                          {step.visited ? (
+                            <Check className="w-3 h-3 text-neon-green" />
+                          ) : (
+                            <Circle className="w-3 h-3 text-text-muted" />
+                          )}
+                          {step.title}
                         </span>
-                        <span className="text-xs text-iron-400">
+                        <span className="text-[10px] text-text-muted font-mono">
                           {step.completed}/{step.total}
                         </span>
                       </Link>
@@ -142,12 +173,22 @@ export default function SummaryPage() {
                         {step.items.map((item) => (
                           <div
                             key={item.id}
-                            className={`text-xs flex items-center gap-1.5 ${
-                              item.done ? "text-green-600" : "text-iron-400"
+                            className={`text-[11px] font-mono flex items-center gap-1.5 ${
+                              item.done
+                                ? "text-neon-green/70"
+                                : "text-text-muted"
                             }`}
                           >
-                            <span>{item.done ? "✅" : "⬜"}</span>
-                            <span className="truncate">{item.label}</span>
+                            <span>
+                              {item.done ? (
+                                <Check className="w-3 h-3" />
+                              ) : (
+                                <Circle className="w-2.5 h-2.5" />
+                              )}
+                            </span>
+                            <span className={`truncate ${item.done ? "line-through" : ""}`}>
+                              {item.label}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -163,16 +204,16 @@ export default function SummaryPage() {
         <div className="mt-10 text-center space-y-4">
           <Link
             href={`/wizard/${userState.currentPhase}/${userState.currentStep}`}
-            className="inline-block px-6 py-3 bg-forge-600 text-white rounded-lg font-medium hover:bg-forge-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-mono font-semibold text-sm tracking-wide btn-neon-solid"
           >
-            ← Back to Wizard
+            <ArrowLeft className="w-4 h-4" /> BACK TO FORGE
           </Link>
           <div>
             <button
               onClick={() => window.print()}
-              className="text-iron-500 hover:text-iron-700 text-sm underline"
+              className="text-text-muted hover:text-neon-cyan text-xs font-mono underline transition-colors inline-flex items-center gap-1.5"
             >
-              🖨️ Print this checklist
+              <Printer className="w-3.5 h-3.5" /> Print Checklist
             </button>
           </div>
         </div>

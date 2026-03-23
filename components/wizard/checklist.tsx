@@ -1,6 +1,7 @@
 "use client";
 
 import type { ChecklistItem } from "@/lib/types/content";
+import { Check, ExternalLink } from "lucide-react";
 
 interface ChecklistProps {
   items: ChecklistItem[];
@@ -16,51 +17,49 @@ export function Checklist({ items, completedItems, onToggle }: ChecklistProps) {
         return (
           <div
             key={item.id}
-            className={`flex items-start gap-3 p-3 rounded-lg border transition-colors cursor-pointer ${
+            className={`flex items-start gap-3 p-3.5 rounded-lg border transition-all cursor-pointer group ${
               completed
-                ? "bg-green-50 border-green-200"
-                : "bg-white border-iron-200 hover:border-iron-300"
+                ? "bg-neon-green/5 border-neon-green/20 neon-border-green"
+                : "bg-cyber-dark/50 border-cyber-border hover:border-neon-cyan/30"
             }`}
             onClick={() => onToggle(item.id)}
           >
             <div className="mt-0.5">
               <div
-                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                   completed
-                    ? "bg-green-500 border-green-500 text-white"
-                    : "border-iron-300"
+                    ? "bg-neon-green/20 border-neon-green text-neon-green"
+                    : "border-cyber-border-bright group-hover:border-neon-cyan/50"
                 }`}
               >
-                {completed && (
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
+                {completed && <Check className="w-3 h-3" />}
               </div>
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-2">
                 <span
-                  className={`text-sm font-medium ${
-                    completed ? "text-green-800 line-through" : "text-iron-900"
+                  className={`text-sm font-mono ${
+                    completed
+                      ? "text-neon-green line-through opacity-70"
+                      : "text-text-primary"
                   }`}
                 >
                   {item.label}
                   {item.required && (
-                    <span className="text-red-400 ml-1">*</span>
+                    <span className="text-neon-red ml-1 text-xs">*</span>
                   )}
                 </span>
               </div>
-              <p className="text-xs text-iron-500 mt-0.5">{item.description}</p>
+              <p className="text-xs text-text-muted mt-1">{item.description}</p>
               {item.link && (
                 <a
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-forge-600 hover:text-forge-700 mt-1 inline-block"
+                  className="text-xs text-neon-blue hover:text-neon-cyan mt-1.5 inline-flex items-center gap-1 font-mono transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  🔗 Open link →
+                  <ExternalLink className="w-3 h-3" /> Open link
                 </a>
               )}
             </div>

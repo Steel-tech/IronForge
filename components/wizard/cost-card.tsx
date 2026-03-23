@@ -7,13 +7,20 @@ interface CostCardProps {
 
 export function CostCard({ icon, label, value, note }: CostCardProps) {
   return (
-    <div className="bg-white border border-iron-200 rounded-xl p-4">
-      <div className="flex items-center gap-2 text-sm text-iron-500 mb-1">
+    <div className="relative bg-cyber-dark border border-cyber-border rounded-xl p-4 transition-all hover:border-neon-cyan/20">
+      {/* Top accent */}
+      <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent" />
+
+      <div className="flex items-center gap-2 text-xs text-text-muted font-mono mb-1.5 uppercase tracking-wider">
         <span>{icon}</span>
         <span>{label}</span>
       </div>
-      <div className="text-lg font-semibold text-iron-900">{value}</div>
-      {note && <div className="text-xs text-iron-400 mt-1">{note}</div>}
+      <div className="text-lg font-mono font-bold text-neon-cyan text-glow-cyan">
+        {value}
+      </div>
+      {note && (
+        <div className="text-[11px] text-text-muted font-mono mt-1.5">{note}</div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,15 @@ import type { Step } from "@/lib/types/content";
 import { Checklist } from "./checklist";
 import { CostCard } from "./cost-card";
 import { ResourceLink } from "./resource-link";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle2,
+  Lightbulb,
+  AlertTriangle,
+  Link2,
+  Trophy,
+} from "lucide-react";
 
 interface StepContentProps {
   step: Step;
@@ -27,25 +36,28 @@ export function StepContent({
   hasPrev,
 }: StepContentProps) {
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-thin">
+    <div className="flex-1 overflow-y-auto scrollbar-thin bg-cyber-black">
       <div className="max-w-3xl mx-auto p-6 md:p-8 space-y-8">
         {/* Header */}
-        <div className="space-y-2">
-          <div className="text-sm text-forge-600 font-medium">{phaseTitle}</div>
-          <h1 className="text-2xl md:text-3xl font-bold text-iron-900">
+        <div className="space-y-3 animate-fade-in-up">
+          <div className="text-xs text-neon-cyan font-mono tracking-widest uppercase">
+            {phaseTitle}
+          </div>
+          <h1 className="text-2xl md:text-3xl font-mono font-bold text-text-primary">
             {step.title}
           </h1>
+          <div className="h-px bg-gradient-to-r from-neon-cyan/40 via-neon-cyan/10 to-transparent" />
         </div>
 
         {/* Description */}
-        <div className="prose prose-iron max-w-none">
-          <p className="text-iron-700 text-lg leading-relaxed">
+        <div className="animate-fade-in-up stagger-1">
+          <p className="text-text-secondary text-sm leading-relaxed">
             {step.description}
           </p>
         </div>
 
         {/* Cost & Time */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in-up stagger-2">
           <CostCard
             icon="💰"
             label="Estimated Cost"
@@ -54,7 +66,7 @@ export function StepContent({
                 ? step.estimatedCost.min === 0
                   ? "Free"
                   : `$${step.estimatedCost.min.toLocaleString()}`
-                : `$${step.estimatedCost.min.toLocaleString()} - $${step.estimatedCost.max.toLocaleString()}`
+                : `$${step.estimatedCost.min.toLocaleString()} – $${step.estimatedCost.max.toLocaleString()}`
             }
             note={step.estimatedCost.notes}
           />
@@ -66,9 +78,10 @@ export function StepContent({
         </div>
 
         {/* Checklist */}
-        <div>
-          <h2 className="text-lg font-semibold text-iron-900 mb-4">
-            ✅ Action Items
+        <div className="animate-fade-in-up stagger-3">
+          <h2 className="text-sm font-mono font-semibold text-neon-green mb-4 tracking-wider uppercase flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4" />
+            Action Items
           </h2>
           <Checklist
             items={step.checklist}
@@ -79,11 +92,12 @@ export function StepContent({
 
         {/* Resources */}
         {step.resources.length > 0 && (
-          <div>
-            <h2 className="text-lg font-semibold text-iron-900 mb-4">
-              📎 Resources & Links
+          <div className="animate-fade-in-up stagger-4">
+            <h2 className="text-sm font-mono font-semibold text-neon-blue mb-4 tracking-wider uppercase flex items-center gap-2">
+              <Link2 className="w-4 h-4" />
+              Resources & Links
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {step.resources.map((resource) => (
                 <ResourceLink key={resource.url} resource={resource} />
               ))}
@@ -93,14 +107,19 @@ export function StepContent({
 
         {/* Tips */}
         {step.tips.length > 0 && (
-          <div className="bg-forge-50 border border-forge-200 rounded-xl p-5">
-            <h2 className="text-lg font-semibold text-forge-800 mb-3">
-              💡 Pro Tips
+          <div className="relative bg-neon-amber/5 border border-neon-amber/20 rounded-xl p-5 animate-fade-in-up stagger-5">
+            <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-neon-amber/40 to-transparent" />
+            <h2 className="text-sm font-mono font-semibold text-neon-amber mb-3 tracking-wider uppercase flex items-center gap-2">
+              <Lightbulb className="w-4 h-4" />
+              Pro Tips
             </h2>
             <ul className="space-y-2">
               {step.tips.map((tip, i) => (
-                <li key={i} className="flex items-start gap-2 text-iron-700">
-                  <span className="text-forge-500 mt-1 shrink-0">•</span>
+                <li
+                  key={i}
+                  className="flex items-start gap-2 text-text-secondary text-sm"
+                >
+                  <span className="text-neon-amber mt-0.5 shrink-0 text-xs">▸</span>
                   <span>{tip}</span>
                 </li>
               ))}
@@ -110,14 +129,19 @@ export function StepContent({
 
         {/* Warnings */}
         {step.warnings.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-            <h2 className="text-lg font-semibold text-red-800 mb-3">
-              ⚠️ Watch Out
+          <div className="relative bg-neon-red/5 border border-neon-red/20 rounded-xl p-5 animate-fade-in-up stagger-6">
+            <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-neon-red/40 to-transparent" />
+            <h2 className="text-sm font-mono font-semibold text-neon-red mb-3 tracking-wider uppercase flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" />
+              Watch Out
             </h2>
             <ul className="space-y-2">
               {step.warnings.map((warning, i) => (
-                <li key={i} className="flex items-start gap-2 text-red-700">
-                  <span className="text-red-500 mt-1 shrink-0">•</span>
+                <li
+                  key={i}
+                  className="flex items-start gap-2 text-text-secondary text-sm"
+                >
+                  <span className="text-neon-red mt-0.5 shrink-0 text-xs">▸</span>
                   <span>{warning}</span>
                 </li>
               ))}
@@ -126,13 +150,13 @@ export function StepContent({
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between pt-6 border-t border-iron-200">
+        <div className="flex items-center justify-between pt-6 border-t border-cyber-border">
           {hasPrev ? (
             <button
               onClick={onPrev}
-              className="px-5 py-2.5 text-iron-600 hover:text-iron-800 hover:bg-iron-100 rounded-lg transition-colors"
+              className="px-4 py-2.5 text-text-muted hover:text-neon-cyan font-mono text-sm rounded-lg transition-all inline-flex items-center gap-1.5 hover:bg-cyber-surface/50"
             >
-              ← Previous Step
+              <ChevronLeft className="w-4 h-4" /> Previous
             </button>
           ) : (
             <div />
@@ -140,16 +164,20 @@ export function StepContent({
           {hasNext ? (
             <button
               onClick={onNext}
-              className="px-5 py-2.5 bg-forge-600 text-white rounded-lg font-medium hover:bg-forge-700 transition-colors"
+              className="px-5 py-2.5 rounded-lg font-mono font-semibold text-sm tracking-wide btn-neon-solid inline-flex items-center gap-1.5"
             >
-              Next Step →
+              Next Step <ChevronRight className="w-4 h-4" />
             </button>
           ) : (
             <button
               onClick={() => (window.location.href = "/wizard/summary")}
-              className="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+              className="px-5 py-2.5 rounded-lg font-mono font-semibold text-sm tracking-wide inline-flex items-center gap-1.5 bg-gradient-to-r from-neon-cyan to-neon-green text-cyber-black border border-neon-green"
+              style={{
+                boxShadow:
+                  "0 0 15px rgba(0, 255, 65, 0.3), 0 0 30px rgba(0, 240, 255, 0.15)",
+              }}
             >
-              🎉 View Summary
+              <Trophy className="w-4 h-4" /> View Summary
             </button>
           )}
         </div>

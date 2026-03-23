@@ -1,4 +1,6 @@
 import type { Phase } from "@/lib/types/content";
+
+// Hand-crafted state content (highest quality)
 import { waBusinessFormation } from "./washington/business-formation";
 import { waContractorLicense } from "./washington/contractor-license";
 import { waBonding } from "./washington/bonding";
@@ -9,12 +11,29 @@ import { orContractorLicense } from "./oregon/contractor-license";
 import { orBonding } from "./oregon/bonding";
 import { orInsurance } from "./oregon/insurance";
 import { orCertifications } from "./oregon/certifications";
+
+// Shared content
 import { federalCertifications } from "./shared/federal-certifications";
 import { bondingEducation } from "./shared/bonding-education";
 import { insuranceEducation } from "./shared/insurance-education";
 import { legalResources } from "./shared/legal-resources";
+import { unionSignatoryEducation } from "./shared/union-signatory";
 
-export type StateCode = "WA" | "OR";
+// Generated content (data-driven for all 50 states)
+import { STATE_REGISTRY } from "./state-registry";
+import { generateBusinessFormation } from "./generators/business-formation";
+import { generateContractorLicense } from "./generators/contractor-license";
+import { generateBonding } from "./generators/bonding";
+import { generateInsurance } from "./generators/insurance";
+import { generateCertifications } from "./generators/certifications";
+import { generateUnionSignatory } from "./generators/union-signatory";
+
+export type StateCode =
+  | "AL" | "AK" | "AZ" | "AR" | "CA" | "CO" | "CT" | "DE" | "FL" | "GA"
+  | "HI" | "ID" | "IL" | "IN" | "IA" | "KS" | "KY" | "LA" | "ME" | "MD"
+  | "MA" | "MI" | "MN" | "MS" | "MO" | "MT" | "NE" | "NV" | "NH" | "NJ"
+  | "NM" | "NY" | "NC" | "ND" | "OH" | "OK" | "OR" | "PA" | "RI" | "SC"
+  | "SD" | "TN" | "TX" | "UT" | "VT" | "VA" | "WA" | "WV" | "WI" | "WY";
 
 export interface PhaseDefinition {
   id: string;
@@ -55,6 +74,12 @@ export const PHASE_DEFINITIONS: PhaseDefinition[] = [
     icon: "Award",
   },
   {
+    id: "union-signatory",
+    title: "Union Signatory Contractor",
+    description: "Becoming a signatory contractor with your local Ironworkers union",
+    icon: "Handshake",
+  },
+  {
     id: "legal-federal",
     title: "Legal & Federal Contracting",
     description: "Construction attorney, SAM.gov, NAICS codes, capability statements",
@@ -62,23 +87,77 @@ export const PHASE_DEFINITIONS: PhaseDefinition[] = [
   },
 ];
 
+function getStateData(state: StateCode) {
+  return STATE_REGISTRY[state];
+}
+
+function getBusinessFormation(state: StateCode): Phase {
+  if (state === "WA") return waBusinessFormation;
+  if (state === "OR") return orBusinessFormation;
+  const data = getStateData(state);
+  if (!data) return waBusinessFormation; // fallback
+  return generateBusinessFormation(data);
+}
+
+function getContractorLicense(state: StateCode): Phase {
+  if (state === "WA") return waContractorLicense;
+  if (state === "OR") return orContractorLicense;
+  const data = getStateData(state);
+  if (!data) return waContractorLicense;
+  return generateContractorLicense(data);
+}
+
+function getBonding(state: StateCode): Phase {
+  if (state === "WA") return waBonding;
+  if (state === "OR") return orBonding;
+  const data = getStateData(state);
+  if (!data) return waBonding;
+  return generateBonding(data);
+}
+
+function getInsurance(state: StateCode): Phase {
+  if (state === "WA") return waInsurance;
+  if (state === "OR") return orInsurance;
+  const data = getStateData(state);
+  if (!data) return waInsurance;
+  return generateInsurance(data);
+}
+
+function getCertifications(state: StateCode): Phase {
+  if (state === "WA") return waCertifications;
+  if (state === "OR") return orCertifications;
+  const data = getStateData(state);
+  if (!data) return waCertifications;
+  return generateCertifications(data);
+}
+
+function getUnionSignatory(state: StateCode): Phase {
+  const data = getStateData(state);
+  if (!data) return generateUnionSignatory(STATE_REGISTRY["WA"]);
+  return generateUnionSignatory(data);
+}
+
 export function getPhaseContent(phaseId: string, state: StateCode): Phase {
   switch (phaseId) {
     case "business-formation":
-      return state === "WA" ? waBusinessFormation : orBusinessFormation;
+      return getBusinessFormation(state);
     case "contractor-licensing":
-      return state === "WA" ? waContractorLicense : orContractorLicense;
+      return getContractorLicense(state);
     case "surety-bonding": {
-      const stateBonding = state === "WA" ? waBonding : orBonding;
+      const stateBonding = getBonding(state);
       return mergePhases(bondingEducation, stateBonding);
     }
     case "insurance": {
-      const stateInsurance = state === "WA" ? waInsurance : orInsurance;
+      const stateInsurance = getInsurance(state);
       return mergePhases(insuranceEducation, stateInsurance);
     }
     case "certifications": {
-      const stateCerts = state === "WA" ? waCertifications : orCertifications;
+      const stateCerts = getCertifications(state);
       return mergePhases(federalCertifications, stateCerts);
+    }
+    case "union-signatory": {
+      const stateUnion = getUnionSignatory(state);
+      return mergePhases(unionSignatoryEducation, stateUnion);
     }
     case "legal-federal":
       return legalResources;

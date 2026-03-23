@@ -4,6 +4,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import type { ChatMessage } from "@/lib/types/chat";
 import type { Step } from "@/lib/types/content";
 import type { UserProfile } from "@/lib/types/wizard";
+import { X, Send, MessageSquare } from "lucide-react";
+import { IBeamIcon } from "@/components/ui/ibeam-icon";
 
 interface ChatPanelProps {
   messages: ChatMessage[];
@@ -60,35 +62,40 @@ export function ChatPanel({
 
   if (collapsed) {
     return (
-      <div className="w-12 bg-white border-l border-iron-200 flex flex-col items-center pt-4">
+      <div className="w-12 bg-cyber-darker border-l border-cyber-border flex flex-col items-center pt-4">
         <button
           onClick={onToggle}
-          className="p-2 text-forge-600 hover:bg-forge-50 rounded-lg"
+          className="p-2 text-neon-magenta hover:bg-neon-magenta/10 rounded-lg transition-all"
           title="Open AI Mentor Chat"
         >
-          💬
+          <MessageSquare className="w-5 h-5" />
         </button>
       </div>
     );
   }
 
   return (
-    <div className="w-96 bg-white border-l border-iron-200 flex flex-col">
+    <div className="w-96 bg-cyber-darker border-l border-cyber-border flex flex-col relative">
+      {/* Left neon accent */}
+      <div className="absolute top-0 left-0 bottom-0 w-px bg-gradient-to-b from-neon-magenta/40 via-neon-magenta/10 to-transparent" />
+
       {/* Header */}
-      <div className="p-4 border-b border-iron-100 flex items-center justify-between">
+      <div className="p-4 border-b border-cyber-border flex items-center justify-between relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-neon-magenta/40 via-transparent to-transparent" />
         <div>
-          <div className="font-semibold text-iron-900 text-sm">
-            ⚒️ IronForge Mentor
+          <div className="font-mono font-semibold text-neon-magenta text-xs tracking-wider uppercase flex items-center gap-1.5">
+            <IBeamIcon className="w-3.5 h-3.5" />
+            IRONFORGE MENTOR
           </div>
-          <div className="text-xs text-iron-500">
-            Ask me anything about this step
+          <div className="text-[10px] text-text-muted font-mono mt-0.5">
+            AI-powered guidance for this step
           </div>
         </div>
         <button
           onClick={onToggle}
-          className="p-1 text-iron-400 hover:text-iron-600 rounded text-sm"
+          className="p-1.5 text-text-muted hover:text-neon-magenta rounded transition-colors"
         >
-          ✕
+          <X className="w-4 h-4" />
         </button>
       </div>
 
@@ -96,23 +103,23 @@ export function ChatPanel({
       <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
         {messages.length === 0 && !isStreaming && (
           <div className="space-y-4">
-            <div className="text-center text-iron-400 text-sm py-4">
-              <div className="text-2xl mb-2">🔨</div>
+            <div className="text-center text-text-muted text-xs font-mono py-4">
+              <div className="text-2xl mb-2">⚒️</div>
               <p>
-                I&apos;m your IronForge mentor. Ask me anything about{" "}
-                <strong className="text-iron-600">{step.title}</strong>.
+                Ask me anything about{" "}
+                <span className="text-neon-cyan">{step.title}</span>
               </p>
             </div>
 
             <div className="space-y-2">
-              <div className="text-xs text-iron-400 uppercase tracking-wide">
-                Try asking:
+              <div className="text-[10px] text-text-muted font-mono uppercase tracking-widest">
+                Suggested:
               </div>
               {suggestedQuestions.map((q, i) => (
                 <button
                   key={i}
                   onClick={() => onSendMessage(q)}
-                  className="w-full text-left text-sm p-2.5 rounded-lg border border-iron-200 text-iron-600 hover:border-forge-300 hover:bg-forge-50 transition-colors"
+                  className="w-full text-left text-xs p-3 rounded-lg border border-cyber-border text-text-secondary hover:border-neon-magenta/30 hover:bg-neon-magenta/5 transition-all font-mono"
                 >
                   {q}
                 </button>
@@ -128,26 +135,32 @@ export function ChatPanel({
               msg.role === "user" ? "flex justify-end" : ""
             }`}
           >
-            <div
-              className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-forge-600 text-white"
-                  : "bg-iron-100 text-iron-800"
-              }`}
-            >
-              <div className="whitespace-pre-wrap">{msg.content}</div>
-            </div>
+            {msg.role === "user" ? (
+              <div className="max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed bg-neon-cyan/10 border border-neon-cyan/20 text-text-primary">
+                <div className="whitespace-pre-wrap">{msg.content}</div>
+              </div>
+            ) : (
+              <div className="max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed bg-cyber-surface border border-cyber-border relative">
+                <div className="absolute top-0 bottom-0 left-0 w-0.5 rounded-full bg-neon-magenta/40" />
+                <div className="whitespace-pre-wrap text-text-secondary pl-1">
+                  {msg.content}
+                </div>
+              </div>
+            )}
           </div>
         ))}
 
         {isStreaming && streamingContent && (
           <div className="animate-fade-in">
-            <div className="max-w-[85%] bg-iron-100 text-iron-800 rounded-xl px-4 py-2.5 text-sm leading-relaxed">
-              <div className="whitespace-pre-wrap">{streamingContent}</div>
+            <div className="max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed bg-cyber-surface border border-cyber-border relative">
+              <div className="absolute top-0 bottom-0 left-0 w-0.5 rounded-full bg-neon-magenta/40 animate-neon-pulse" />
+              <div className="whitespace-pre-wrap text-text-secondary pl-1">
+                {streamingContent}
+              </div>
               <span className="inline-flex gap-1 ml-1">
-                <span className="streaming-dot w-1 h-1 bg-iron-400 rounded-full inline-block" />
-                <span className="streaming-dot w-1 h-1 bg-iron-400 rounded-full inline-block" />
-                <span className="streaming-dot w-1 h-1 bg-iron-400 rounded-full inline-block" />
+                <span className="streaming-dot w-1.5 h-1.5 bg-neon-magenta rounded-full inline-block" />
+                <span className="streaming-dot w-1.5 h-1.5 bg-neon-magenta rounded-full inline-block" />
+                <span className="streaming-dot w-1.5 h-1.5 bg-neon-magenta rounded-full inline-block" />
               </span>
             </div>
           </div>
@@ -155,11 +168,11 @@ export function ChatPanel({
 
         {isStreaming && !streamingContent && (
           <div className="animate-fade-in">
-            <div className="max-w-[85%] bg-iron-100 rounded-xl px-4 py-3 text-sm">
-              <span className="inline-flex gap-1">
-                <span className="streaming-dot w-1.5 h-1.5 bg-iron-400 rounded-full inline-block" />
-                <span className="streaming-dot w-1.5 h-1.5 bg-iron-400 rounded-full inline-block" />
-                <span className="streaming-dot w-1.5 h-1.5 bg-iron-400 rounded-full inline-block" />
+            <div className="max-w-[85%] bg-cyber-surface border border-cyber-border rounded-xl px-4 py-3 text-sm">
+              <span className="inline-flex gap-1.5">
+                <span className="streaming-dot w-2 h-2 bg-neon-magenta rounded-full inline-block" />
+                <span className="streaming-dot w-2 h-2 bg-neon-magenta rounded-full inline-block" />
+                <span className="streaming-dot w-2 h-2 bg-neon-magenta rounded-full inline-block" />
               </span>
             </div>
           </div>
@@ -169,7 +182,7 @@ export function ChatPanel({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-3 border-t border-iron-100">
+      <form onSubmit={handleSubmit} className="p-3 border-t border-cyber-border">
         <div className="flex gap-2">
           <textarea
             ref={inputRef}
@@ -178,19 +191,19 @@ export function ChatPanel({
             onKeyDown={handleKeyDown}
             placeholder="Ask about this step..."
             rows={1}
-            className="flex-1 px-3 py-2 rounded-lg border border-iron-300 focus:border-forge-500 focus:ring-1 focus:ring-forge-500 outline-none text-sm resize-none"
+            className="flex-1 px-3 py-2.5 rounded-lg bg-cyber-dark border border-cyber-border text-text-primary placeholder-text-muted font-mono text-sm resize-none cyber-focus transition-all"
             disabled={isStreaming}
           />
           <button
             type="submit"
             disabled={isStreaming || !input.trim()}
-            className="px-3 py-2 bg-forge-600 text-white rounded-lg hover:bg-forge-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+            className="px-3 py-2.5 rounded-lg btn-neon-magenta disabled:opacity-30 disabled:cursor-not-allowed text-sm font-mono font-medium transition-all"
           >
-            Send
+            <Send className="w-4 h-4" />
           </button>
         </div>
-        <div className="text-xs text-iron-400 mt-1.5 px-1">
-          AI responses are educational. Verify all regulatory details at official sources.
+        <div className="text-[10px] text-text-muted mt-1.5 px-1 font-mono">
+          AI responses are educational. Verify at official sources.
         </div>
       </form>
     </div>

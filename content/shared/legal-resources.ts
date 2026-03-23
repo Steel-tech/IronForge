@@ -68,11 +68,11 @@ export const legalResources: Phase = {
       warnings: [
         "Using generic contract templates without legal review is a recipe for disaster",
         "Mechanic's lien deadlines are absolute - miss them and you lose your rights",
-        "WA and OR have different lien laws - make sure your attorney knows your state's rules",
+        "Every state has different lien laws - make sure your attorney knows your state's rules",
       ],
       stateSpecific: false,
       aiContext:
-        "Construction attorney. Critical for contract review, lien rights, dispute resolution. WA and OR have different mechanic's lien laws. Strict filing deadlines.",
+        "Construction attorney. Critical for contract review, lien rights, dispute resolution. Each state has different mechanic's lien laws with strict filing deadlines.",
     },
     {
       id: "naics-codes",
