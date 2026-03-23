@@ -106,7 +106,7 @@ export function generateBusinessFormation(state: StateData): Phase {
           { id: "open-account", label: "Open the account and deposit initial funds", description: "Bring all documents to the bank", required: true },
         ],
         resources: [
-          { title: "NerdWallet - Best Business Checking", url: "https://www.nerdwallet.com/best/small-business/free-business-checking-accounts", description: "Comparison of business checking accounts", type: "guide" },
+          { title: "NerdWallet - Best Business Checking", url: "https://www.nerdwallet.com/best/small-business/business-checking-accounts", description: "Comparison of business checking accounts", type: "guide" },
         ],
         tips: [
           "Credit unions often have lower fees than big banks",

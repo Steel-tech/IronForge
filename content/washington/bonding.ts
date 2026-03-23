@@ -36,7 +36,7 @@ export const waBonding: Phase = {
       resources: [
         {
           title: "WA L&I - Contractor Bond Requirements",
-          url: "https://lni.wa.gov/licensing-permits/contractors/register-as-a-contractor/bond-insurance-requirements",
+          url: "https://lni.wa.gov/licensing-permits/contractors/register-as-a-contractor/",
           description: "Official bond requirements for WA contractors",
           type: "guide",
         },

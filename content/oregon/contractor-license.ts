@@ -49,19 +49,19 @@ export const orContractorLicense: Phase = {
       resources: [
         {
           title: "Oregon CCB - Become a Licensed Contractor",
-          url: "https://www.oregon.gov/ccb/licensing/Pages/new-contractor.aspx",
+          url: "https://www.oregon.gov/ccb/Pages/index.aspx",
           description: "Official guide for new contractor licensing",
           type: "guide",
         },
         {
           title: "Oregon CCB - Exam Information",
-          url: "https://www.oregon.gov/ccb/licensing/Pages/exam.aspx",
+          url: "https://www.oregon.gov/ccb/Pages/index.aspx",
           description: "CCB exam study materials and scheduling",
           type: "website",
         },
         {
           title: "Oregon CCB - License Lookup",
-          url: "https://www.oregon.gov/ccb/licensing/Pages/lookup.aspx",
+          url: "https://www.oregon.gov/ccb/Pages/index.aspx",
           description: "Verify contractor licenses",
           type: "website",
         },
@@ -111,7 +111,7 @@ export const orContractorLicense: Phase = {
       resources: [
         {
           title: "Oregon CCB - License Categories",
-          url: "https://www.oregon.gov/ccb/licensing/Pages/categories.aspx",
+          url: "https://www.oregon.gov/ccb/Pages/index.aspx",
           description: "Complete list of CCB endorsement categories",
           type: "guide",
         },
@@ -160,13 +160,13 @@ export const orContractorLicense: Phase = {
       resources: [
         {
           title: "Oregon BOLI - Prevailing Wage Rates",
-          url: "https://www.oregon.gov/boli/workers/Pages/prevailing-wage-rates.aspx",
+          url: "https://www.oregon.gov/boli/Pages/index.aspx",
           description: "Current prevailing wage rates by trade and region",
           type: "website",
         },
         {
           title: "Oregon BOLI - Public Works",
-          url: "https://www.oregon.gov/boli/employers/Pages/public-works.aspx",
+          url: "https://www.oregon.gov/boli/Pages/index.aspx",
           description: "Employer guide for public works requirements",
           type: "guide",
         },

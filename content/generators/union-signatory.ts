@@ -80,7 +80,7 @@ export function generateUnionSignatory(state: StateData): Phase {
           ...resourceList,
           {
             title: "Ironworkers International — Find a Local",
-            url: "https://www.ironworkers.org/find-a-local",
+            url: "https://www.ironworkers.org/",
             description: "Official directory of all ironworkers locals nationwide",
             type: "website" as const,
           },

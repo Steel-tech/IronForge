@@ -42,13 +42,13 @@ export const legalResources: Phase = {
       resources: [
         {
           title: "ABA - Find a Lawyer",
-          url: "https://www.americanbar.org/groups/legal_services/flh-home/",
+          url: "https://www.americanbar.org/groups/legal_services/",
           description: "American Bar Association lawyer referral",
           type: "website",
         },
         {
           title: "WA State Bar Lawyer Directory",
-          url: "https://www.wsba.org/for-the-public/find-connect-with-a-lawyer",
+          url: "https://www.wsba.org/for-the-public",
           description: "Find a WA licensed attorney",
           type: "website",
         },
@@ -110,7 +110,7 @@ export const legalResources: Phase = {
       resources: [
         {
           title: "Census Bureau - NAICS Search",
-          url: "https://www.census.gov/naics/",
+          url: "https://data.census.gov/cedsci/",
           description: "Official NAICS code lookup",
           type: "website",
         },
@@ -171,7 +171,7 @@ export const legalResources: Phase = {
         },
         {
           title: "PTAC - Find Your Local Procurement Center",
-          url: "https://www.aptac-us.org/find-a-ptac/",
+          url: "https://www.sba.gov/local-assistance/find",
           description: "Free help with capability statements and federal contracting",
           type: "website",
         },
@@ -217,14 +217,14 @@ export const legalResources: Phase = {
           label: "Connect with your local PTAC",
           description: "Procurement Technical Assistance Centers provide FREE help with federal contracting",
           required: true,
-          link: "https://www.aptac-us.org/find-a-ptac/",
+          link: "https://www.sba.gov/local-assistance/find",
         },
         {
           id: "mentor-protege",
           label: "Research SBA Mentor-Protégé program",
           description: "Get paired with an experienced contractor who helps you grow",
           required: false,
-          link: "https://www.sba.gov/federal-contracting/counseling-help/mentor-protege-program",
+          link: "https://www.sba.gov/federal-contracting/contracting-assistance-programs/sba-mentor-protege-program",
         },
       ],
       resources: [
@@ -236,13 +236,13 @@ export const legalResources: Phase = {
         },
         {
           title: "APTAC - Find a PTAC",
-          url: "https://www.aptac-us.org/find-a-ptac/",
+          url: "https://www.sba.gov/local-assistance/find",
           description: "Free federal contracting assistance",
           type: "website",
         },
         {
           title: "SBA Mentor-Protégé Program",
-          url: "https://www.sba.gov/federal-contracting/counseling-help/mentor-protege-program",
+          url: "https://www.sba.gov/federal-contracting/contracting-assistance-programs/sba-mentor-protege-program",
           description: "Get paired with an experienced contractor mentor",
           type: "guide",
         },

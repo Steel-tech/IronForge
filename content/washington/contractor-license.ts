@@ -111,7 +111,7 @@ export const waContractorLicense: Phase = {
       resources: [
         {
           title: "WA L&I - Contractor Specialty Descriptions",
-          url: "https://lni.wa.gov/licensing-permits/contractors/register-as-a-contractor/contractor-specialty-descriptions",
+          url: "https://lni.wa.gov/licensing-permits/contractors/register-as-a-contractor/",
           description: "Complete list of specialty trade classifications",
           type: "guide",
         },

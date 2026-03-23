@@ -182,7 +182,7 @@ export const orBusinessFormation: Phase = {
       resources: [
         {
           title: "NerdWallet - Best Business Checking",
-          url: "https://www.nerdwallet.com/best/small-business/free-business-checking-accounts",
+          url: "https://www.nerdwallet.com/best/small-business/business-checking-accounts",
           description: "Comparison of business checking accounts",
           type: "guide",
         },
@@ -242,7 +242,7 @@ export const orBusinessFormation: Phase = {
         },
         {
           title: "Oregon Tax - New Business Guide",
-          url: "https://www.oregon.gov/dor/programs/businesses/Pages/new-business.aspx",
+          url: "https://www.oregon.gov/dor/Pages/index.aspx",
           description: "Guide for new businesses in Oregon",
           type: "guide",
         },

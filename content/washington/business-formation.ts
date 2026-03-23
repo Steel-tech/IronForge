@@ -92,7 +92,7 @@ export const waBusinessFormation: Phase = {
       resources: [
         {
           title: "WA Secretary of State - Form an LLC",
-          url: "https://www.sos.wa.gov/corps/limited-liability-companies.aspx",
+          url: "https://www.sos.wa.gov/corps/",
           description: "Official guide and filing portal",
           type: "form",
         },
@@ -195,7 +195,7 @@ export const waBusinessFormation: Phase = {
       resources: [
         {
           title: "NerdWallet - Best Business Checking",
-          url: "https://www.nerdwallet.com/best/small-business/free-business-checking-accounts",
+          url: "https://www.nerdwallet.com/best/small-business/business-checking-accounts",
           description: "Comparison of business checking accounts",
           type: "guide",
         },
@@ -257,7 +257,7 @@ export const waBusinessFormation: Phase = {
         },
         {
           title: "WA DOR - Contractor Tax Guide",
-          url: "https://dor.wa.gov/education/industry-guides/construction-industry",
+          url: "https://dor.wa.gov/taxes-rates",
           description: "Tax guidance specific to construction contractors",
           type: "guide",
         },

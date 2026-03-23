@@ -25,7 +25,7 @@ export const orCertifications: Phase = {
           label: "Submit COBID application",
           description: "Online application through Oregon COBID portal",
           required: true,
-          link: "https://oregon4biz.diversitysoftware.com/FrontEnd/VendorSearchPublic.asp",
+          link: "https://www.oregon.gov/biz/programs/cobid/Pages/default.aspx",
         },
         {
           id: "cobid-docs",
@@ -37,7 +37,7 @@ export const orCertifications: Phase = {
       resources: [
         {
           title: "Oregon COBID",
-          url: "https://oregon4biz.diversitysoftware.com/FrontEnd/VendorSearchPublic.asp",
+          url: "https://www.oregon.gov/biz/programs/cobid/Pages/default.aspx",
           description: "Oregon certification program for diverse businesses",
           type: "form",
         },

@@ -42,7 +42,7 @@ export const insuranceEducation: Phase = {
       resources: [
         {
           title: "IRMI - Construction Insurance Guide",
-          url: "https://www.irmi.com/articles/expert-commentary/construction-insurance",
+          url: "https://www.irmi.com/online/insurance-glossary/construction-insurance",
           description: "Industry resource on construction insurance",
           type: "guide",
         },
@@ -87,7 +87,7 @@ export const insuranceEducation: Phase = {
       resources: [
         {
           title: "NAIC - Commercial Auto Insurance",
-          url: "https://content.naic.org/cipr-topics/commercial-auto-insurance",
+          url: "https://www.iii.org/article/commercial-auto-insurance",
           description: "Understanding commercial auto insurance",
           type: "guide",
         },

@@ -61,7 +61,7 @@ export const federalCertifications: Phase = {
         },
         {
           title: "Census Bureau - NAICS Search",
-          url: "https://www.census.gov/naics/",
+          url: "https://data.census.gov/cedsci/",
           description: "Look up NAICS codes for your services",
           type: "website",
         },
@@ -125,7 +125,7 @@ export const federalCertifications: Phase = {
         },
         {
           title: "VA - eBenefits",
-          url: "https://www.ebenefits.va.gov/",
+          url: "https://www.va.gov/records/",
           description: "Access your VA disability rating and documents",
           type: "website",
         },

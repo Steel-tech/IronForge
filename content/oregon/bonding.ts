@@ -36,7 +36,7 @@ export const orBonding: Phase = {
       resources: [
         {
           title: "Oregon CCB - Bond Requirements",
-          url: "https://www.oregon.gov/ccb/licensing/Pages/bond.aspx",
+          url: "https://www.oregon.gov/ccb/Pages/index.aspx",
           description: "Official bond requirements for OR contractors",
           type: "guide",
         },

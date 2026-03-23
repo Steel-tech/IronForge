@@ -43,7 +43,7 @@ export const waCertifications: Phase = {
         },
         {
           title: "WA OMWBE - Certification Types",
-          url: "https://omwbe.wa.gov/certification/certification-types",
+          url: "https://omwbe.wa.gov/certification",
           description: "MBE, WBE, SEDBE, and combined certifications",
           type: "guide",
         },

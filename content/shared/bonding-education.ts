@@ -98,7 +98,7 @@ export const bondingEducation: Phase = {
       resources: [
         {
           title: "SBA - Types of Surety Bonds",
-          url: "https://www.sba.gov/funding-programs/surety-bonds/types-surety-bonds",
+          url: "https://www.sba.gov/funding-programs/surety-bonds",
           description: "Explanation of different bond types",
           type: "guide",
         },
@@ -237,7 +237,7 @@ export const bondingEducation: Phase = {
       resources: [
         {
           title: "AGC of America - Surety Bonding Guide",
-          url: "https://www.agc.org/learn/construction-data/surety-bonding",
+          url: "https://www.agc.org/",
           description: "Industry guide to construction bonding",
           type: "guide",
         },

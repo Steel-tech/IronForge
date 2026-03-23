@@ -54,7 +54,7 @@ export const unionSignatoryEducation: Phase = {
         },
         {
           title: "Ironworkers Apprenticeship Programs",
-          url: "https://www.ironworkers.org/training-and-apprenticeships",
+          url: "https://www.ironworkers.org/",
           description: "National apprenticeship training information",
           type: "guide",
         },
@@ -119,7 +119,7 @@ export const unionSignatoryEducation: Phase = {
       resources: [
         {
           title: "IMPACT - Contractor Resources",
-          url: "https://www.impact-net.org/contractors",
+          url: "https://www.impact-net.org/",
           description: "Resources specifically for signatory ironwork contractors",
           type: "guide",
         },
@@ -210,7 +210,7 @@ export const unionSignatoryEducation: Phase = {
         },
         {
           title: "Ironworkers International — Local Union Directory",
-          url: "https://www.ironworkers.org/find-a-local",
+          url: "https://www.ironworkers.org/",
           description: "Find your local ironworkers union by location",
           type: "website",
         },
