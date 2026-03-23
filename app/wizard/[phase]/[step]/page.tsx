@@ -173,9 +173,9 @@ export default function WizardStepPage({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: apiMessages,
-          step,
+          phaseId,
+          stepId,
           profile: userState.profile,
-          phaseName: phaseDef!.title,
         }),
       });
 
@@ -228,7 +228,7 @@ export default function WizardStepPage({
         id: `msg-${Date.now()}-error`,
         role: "assistant",
         content:
-          "Connection to AI service failed. Verify ANTHROPIC_API_KEY is configured.",
+          "Connection to AI service failed. Please try again later.",
         timestamp: Date.now(),
         stepId,
       };

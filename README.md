@@ -1,231 +1,313 @@
-# IronForge
+<div align="center">
 
-**AI-powered wizard to help ironworkers start their contracting business — all 50 US states.**
+# ⠀⟨⠀I⠀⟩⠀IronForge
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)
-![shadcn/ui](https://img.shields.io/badge/shadcn/ui-latest-000000?logo=shadcnui)
-![Claude API](https://img.shields.io/badge/Claude_API-Anthropic-D4A574)
-![States](https://img.shields.io/badge/Coverage-50_States-00f0ff)
+### AI-Powered Contractor Launchpad for Ironworkers
+
+**From apprentice to signatory contractor — every step, every state, one platform.**
+
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=fff)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19-087EA4?logo=react&logoColor=fff)](https://react.dev/)
+[![TypeScript 5.9](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=fff)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000?logo=shadcnui&logoColor=fff)](https://ui.shadcn.com/)
+[![Claude API](https://img.shields.io/badge/Claude_API-Anthropic-D4A574)](https://docs.anthropic.com/)
+[![Coverage](https://img.shields.io/badge/coverage-50_states-00f0ff)](#coverage)
+[![License](https://img.shields.io/badge/license-proprietary-333)](#license)
+
+<br />
+
+[Getting Started](#getting-started) · [Architecture](#architecture) · [Tech Stack](#tech-stack) · [Contributing](#contributing)
+
+</div>
+
+---
 
 ## Overview
 
-IronForge is a free, step-by-step web application that walks ironworkers through everything they need to launch a legitimate contracting business in any US state. It combines a structured 7-phase wizard with an AI mentor powered by Claude that answers questions in plain English — no jargon, no guesswork.
+IronForge is a full-stack web application that guides ironworkers through every phase of launching a legitimate contracting business — from LLC formation and state licensing to surety bonding, workers' compensation, union signatory agreements, federal certifications, and first-bid readiness.
 
-The app covers LLC formation, contractor licensing, surety bonding, insurance, small business certifications, becoming a union signatory contractor, and federal contracting prep — with state-specific requirements, real cost estimates, local Ironworkers union info, and direct links to official forms and agencies.
+The platform serves all 50 US states with a data-driven content engine that renders state-specific regulatory requirements, costs, timelines, and resource links. An integrated AI mentor (Claude) provides contextual guidance scoped to the user's current phase, step, jurisdiction, and profile.
+
+### Key Differentiators
+
+- **Domain-specific** — built for structural steel and ironwork contractors, not generic small business
+- **Regulatory accuracy** — state-level licensing agencies, bond amounts, workers' comp classification (monopolistic / competitive / private), prevailing wage thresholds, and MBE/WBE/DBE certification programs
+- **Union integration** — Ironworkers local union directory with hall contact info, CBA education, trust fund obligation breakdowns, and signatory contractor onboarding for every state
+- **Zero auth MVP** — localStorage persistence, no database, no accounts — optimized for fast iteration
+
+---
 
 ## Features
 
-- **7-Phase Guided Wizard** — Structured path from business formation through union signatory and federal contracting readiness
-- **All 50 States** — State-specific licensing, bonding, tax, insurance, and union data for every US state
-- **AI Mentor** — Claude-powered streaming chat that understands your current step, state, and profile
-- **Union Signatory Guide** — Local Ironworkers union contact info, CBA walkthrough, trust fund obligations, and hiring hall procedures for every state
-- **Interactive Checklists** — Track progress through each step with persistent checkboxes
-- **Cost & Time Estimates** — Real-world costs and timelines for every requirement
-- **Resource Links** — Direct links to official state forms, agencies, union halls, and applications
-- **Profile-Aware** — Surfaces relevant certifications based on veteran status, minority ownership, etc.
-- **Cyberpunk UI** — Dark theme with neon accents, matrix rain, Tron grid, and glitch effects
-- **Progress Persistence** — Saves your place in localStorage (no account required)
-- **Responsive Design** — Works on desktop and mobile
+| Category | Details |
+|----------|---------|
+| **7-Phase Wizard** | Business Formation → Licensing → Bonding → Insurance → Certifications → Union Signatory → Legal & Federal |
+| **50-State Coverage** | State registry with licensing fees, SOS URLs, tax rates, WC type, prevailing wage, union locals |
+| **AI Mentor** | Claude-powered streaming chat with per-step system prompts, profile-aware context, and resource grounding |
+| **Union Signatory** | Local-by-local Ironworkers contact info, CBA walkthrough, trust fund obligations, dispatch procedures |
+| **Progress Tracking** | Per-step checklists persisted to localStorage with phase completion metrics |
+| **Profile Engine** | Veteran, SDVOB, MBE, WBE flags surface relevant certification pathways |
+| **Responsive** | Desktop 3-panel layout (sidebar + content + chat), mobile with collapsible panels |
 
-## Screenshots
-
-> _Screenshots coming soon. Run the app locally to see it in action._
+---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | [Next.js 16](https://nextjs.org/) (App Router, Turbopack) |
-| UI | [React 19](https://react.dev/) + [TypeScript 5.9](https://www.typescriptlang.org/) |
-| Components | [shadcn/ui](https://ui.shadcn.com/) |
-| Styling | [Tailwind CSS 4](https://tailwindcss.com/) (CSS-first config with `@theme`) |
-| Icons | [Lucide React](https://lucide.dev/) + custom I-beam SVG |
-| AI | [Anthropic Claude API](https://docs.anthropic.com/) (`@anthropic-ai/sdk`) |
-| Fonts | [JetBrains Mono](https://www.jetbrains.com/lp/mono/) + [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) |
-| State | localStorage (no database for MVP) |
+| Layer | Choice | Rationale |
+|-------|--------|-----------|
+| **Runtime** | [Next.js 16](https://nextjs.org/) (App Router, Turbopack) | Server components, streaming, file-system routing |
+| **Language** | [TypeScript 5.9](https://www.typescriptlang.org/) | Strict mode, exhaustive type checking on state data |
+| **UI Framework** | [React 19](https://react.dev/) | `use()` for params, concurrent features |
+| **Component Library** | [shadcn/ui](https://ui.shadcn.com/) | Accessible primitives (Button, Card, Input, Checkbox, ScrollArea, etc.) |
+| **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) | CSS-first `@theme` config, no `tailwind.config.js` |
+| **Icons** | [Lucide React](https://lucide.dev/) + custom `<IBeamIcon />` | Tree-shakeable SVGs, domain-specific brand icon |
+| **Fonts** | [JetBrains Mono](https://www.jetbrains.com/lp/mono/) / [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) | Monospace for data/headings, geometric sans for body |
+| **AI** | [Anthropic Claude API](https://docs.anthropic.com/) (`@anthropic-ai/sdk`) | Streaming responses, context-window-friendly system prompts |
+| **State** | `localStorage` | No-auth MVP persistence for profile, progress, and chat history |
+
+---
 
 ## Design System
 
-**Cyberpunk / Matrix / Tron / Futuristic** dark theme.
+Cyberpunk-inspired dark UI with structural steel branding.
 
-- **Backgrounds:** Jet black → dark surfaces with subtle grid patterns
-- **Accents:** Neon cyan (primary), magenta (chat), green (success), amber (tips), red (warnings)
-- **Effects:** Matrix digital rain, Tron perspective grid, scan-line overlay, glitch text, neon glow borders
-- **Typography:** JetBrains Mono for headings/data, Space Grotesk for body text
+```
+Backgrounds   #0a0a0f → #0d0d14 → #12121c → #1a1a2e
+Borders       #2a2a40 → #3a3a55
+Neon Cyan     #00f0ff    Primary accent, active states, CTA
+Neon Magenta  #ff00aa    Chat panel, secondary accent
+Neon Green    #00ff41    Success, completion, matrix rain
+Neon Amber    #ffaa00    Tips, warnings
+Neon Red      #ff0040    Errors, required indicators
+```
+
+**Visual effects:** Matrix digital rain (canvas), Tron perspective grid (CSS), scan-line overlay, glitch text animation, neon glow borders, staggered fade-in transitions.
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Node.js** 18+
-- **npm**
-- An **Anthropic API key** ([get one here](https://console.anthropic.com/))
+| Requirement | Version |
+|-------------|---------|
+| Node.js | ≥ 18 |
+| npm | ≥ 9 |
+| Anthropic API Key | [console.anthropic.com](https://console.anthropic.com/) |
 
-### Installation
+### Quick Start
 
 ```bash
-# Clone the repository
 git clone https://github.com/Steel-tech/IronForge.git
 cd IronForge
-
-# Install dependencies
 npm install
-
-# Configure environment
 cp .env.example .env.local
-# Edit .env.local and add your Anthropic API key
+```
 
-# Start the dev server
+Add your API key to `.env.local`:
+
+```env
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+```bash
 npm run dev
 ```
 
-The app will be running at [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
-### Environment Variables
+### Scripts
 
-| Variable | Description |
-|----------|------------|
-| `ANTHROPIC_API_KEY` | Your Anthropic API key for Claude AI chat |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Development server (Turbopack) |
+| `npm run build` | Production build |
+| `npm start` | Serve production build |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Type check |
 
-See `.env.example` for the template.
+---
+
+## Architecture
+
+### Content Pipeline
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    State Registry                        │
+│              (50 states × 25+ fields)                   │
+│   fees · URLs · agencies · tax · WC · unions · certs    │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+   ┌─────────┐  ┌──────────┐  ┌─────────────┐
+   │ Hand-   │  │ Generator│  │   Shared     │
+   │ Crafted │  │ Functions│  │   Content    │
+   │ (WA/OR) │  │ (48 st.) │  │ (education) │
+   └────┬────┘  └────┬─────┘  └──────┬──────┘
+        │             │               │
+        └─────────────┼───────────────┘
+                      ▼
+              ┌──────────────┐
+              │  phases.ts   │
+              │   (router)   │
+              └──────┬───────┘
+                     ▼
+              ┌──────────────┐
+              │   Wizard UI  │
+              │  components  │
+              └──────────────┘
+```
+
+**Hybrid content strategy:**
+- **Hand-crafted** — WA and OR have 5 detailed files each (~1,400 lines) with granular regulatory data, curated resource links, and trade-specific guidance
+- **Generated** — The remaining 48 states use 6 generator functions that produce `Phase` objects from the central state registry
+- **Shared** — Educational content (bond types, insurance fundamentals, federal certifications, union education, legal prep) is state-agnostic and merged at render time
+- **Routing** — `getPhaseContent(phaseId, stateCode)` checks for hand-crafted content first, falls back to generated
+
+### Workers' Compensation Classification
+
+| Type | States | Behavior |
+|------|--------|----------|
+| **Monopolistic** | WA, OH, ND, WY | State fund is the only carrier. No private option. |
+| **Competitive** | OR, CO, UT, AZ, CA, NV, + others | State fund competes with private carriers. |
+| **Private Only** | TX, FL, GA, AL, + others | Private carriers exclusively. TX is voluntary. |
+
+### Wizard Routing
+
+Dynamic segments via App Router: `/wizard/[phase]/[step]`
+
+Navigation is computed by `getNextStep()` and `getPrevStep()`, which walk the phase/step tree for the user's selected state. Step IDs are stable across states; step *content* varies by jurisdiction.
+
+### AI Integration
+
+The `/api/chat` endpoint builds a system prompt that includes:
+- Current phase, step title, and description
+- Full checklist with descriptions and resource URLs
+- Tips, warnings, cost/time estimates
+- User profile (state, veteran status, certifications, experience)
+- Grounding rules to prevent hallucination
+
+Responses stream via `ReadableStream` using Anthropic's `messages.stream()` API.
+
+---
 
 ## Project Structure
 
 ```
 ironforge/
 ├── app/
-│   ├── page.tsx                        # Landing page (50-state selector, profile setup)
-│   ├── layout.tsx                      # Root layout (fonts, dark theme, scan-lines)
-│   ├── globals.css                     # Cyberpunk theme, neon effects, animations
-│   ├── api/chat/route.ts              # Streaming Claude AI endpoint
+│   ├── layout.tsx                      Root layout (fonts, theme, scan-lines)
+│   ├── page.tsx                        Landing (50-state selector, profile)
+│   ├── globals.css                     Cyberpunk theme, effects, animations
+│   ├── api/chat/route.ts              Streaming Claude endpoint
 │   └── wizard/
-│       ├── layout.tsx                  # Wizard shell layout
-│       ├── [phase]/[step]/page.tsx     # Dynamic wizard step page
-│       └── summary/page.tsx            # Completion summary
+│       ├── layout.tsx                  Auth guard, loading state
+│       ├── [phase]/[step]/page.tsx     Wizard step (sidebar + content + chat)
+│       └── summary/page.tsx            Progress summary
 │
 ├── components/
-│   ├── ui/                             # shadcn/ui base components
-│   │   ├── button.tsx, card.tsx, ...   # Standard shadcn primitives
-│   │   ├── ibeam-icon.tsx              # Custom I-beam (structural steel) SVG icon
-│   │   ├── matrix-rain.tsx             # Canvas-based Matrix digital rain effect
-│   │   └── tron-grid.tsx               # Tron perspective grid background
+│   ├── ui/                             shadcn/ui primitives + custom
+│   │   ├── ibeam-icon.tsx              Structural steel I-beam brand icon
+│   │   ├── matrix-rain.tsx             Canvas digital rain effect
+│   │   └── tron-grid.tsx               CSS perspective grid
 │   └── wizard/
-│       ├── chat-panel.tsx              # AI mentor chat interface
-│       ├── checklist.tsx               # Interactive step checklist
-│       ├── cost-card.tsx               # Cost & time estimate card
-│       ├── progress-sidebar.tsx        # Phase/step navigation sidebar
-│       ├── resource-link.tsx           # External resource link component
-│       └── step-content.tsx            # Step content renderer
+│       ├── progress-sidebar.tsx        Phase/step nav with completion state
+│       ├── step-content.tsx            Step renderer (checklist, costs, tips)
+│       ├── chat-panel.tsx              AI mentor (streaming, suggestions)
+│       ├── checklist.tsx               Interactive checklist with neon states
+│       ├── cost-card.tsx               Cost/time estimate card
+│       └── resource-link.tsx           External resource with type icon
 │
 ├── content/
-│   ├── phases.ts                       # Phase definitions & routing (hand-crafted → generated fallback)
-│   ├── state-registry.ts              # ★ All 50 states data (fees, URLs, agencies, unions, 2000+ lines)
-│   ├── generators/                    # Dynamic content generators from state registry
-│   │   ├── business-formation.ts       # LLC formation Phase generator
-│   │   ├── contractor-license.ts       # Licensing Phase generator
-│   │   ├── bonding.ts                  # Bonding Phase generator
-│   │   ├── insurance.ts               # Insurance Phase generator
-│   │   ├── certifications.ts          # Certifications Phase generator
-│   │   └── union-signatory.ts         # Union signatory Phase generator
-│   ├── washington/                    # Hand-crafted WA content (highest detail)
-│   │   ├── business-formation.ts
-│   │   ├── contractor-license.ts
-│   │   ├── bonding.ts
-│   │   ├── insurance.ts
-│   │   └── certifications.ts
-│   ├── oregon/                        # Hand-crafted OR content (highest detail)
-│   │   ├── business-formation.ts
-│   │   ├── contractor-license.ts
-│   │   ├── bonding.ts
-│   │   ├── insurance.ts
-│   │   └── certifications.ts
-│   └── shared/                        # Educational content shared across all states
-│       ├── bonding-education.ts        # Surety bond education (types, getting bonded, capacity)
-│       ├── insurance-education.ts      # Insurance education (GL, auto, tools, umbrella)
-│       ├── federal-certifications.ts   # Federal certs (SAM.gov, SDVOSB, 8(a), HUBZone, DBE)
-│       ├── union-signatory.ts         # Union education (CBA, trust funds, signing process, bidding)
-│       └── legal-resources.ts          # Legal & federal contracting (attorney, NAICS, cap statement)
+│   ├── state-registry.ts              ★ 50-state data source (2,000+ lines)
+│   ├── phases.ts                       Phase definitions + routing logic
+│   ├── generators/                     Content generators (6 files)
+│   ├── washington/                     Hand-crafted WA content (5 files)
+│   ├── oregon/                         Hand-crafted OR content (5 files)
+│   └── shared/                         Educational content (5 files)
 │
 └── lib/
-    ├── ai/
-    │   └── system-prompts.ts           # Context-aware Claude system prompt builder (50-state aware)
-    ├── store/
-    │   ├── progress.ts                 # Checklist progress persistence
-    │   ├── user-profile.ts             # User profile persistence
-    │   └── chat-history.ts             # Chat history persistence
-    ├── types/
-    │   ├── wizard.ts                   # UserProfile, WizardProgress, UserState
-    │   ├── content.ts                  # Phase, Step, content type definitions
-    │   └── chat.ts                     # Chat message types
-    └── utils.ts                        # cn() utility for class merging
+    ├── ai/system-prompts.ts            50-state-aware prompt builder
+    ├── store/                          localStorage persistence (3 files)
+    ├── types/                          TypeScript interfaces (3 files)
+    └── utils.ts                        cn() class merging utility
 ```
+
+---
 
 ## The 7 Phases
 
-| # | Phase | What It Covers |
-|---|-------|---------------|
-| 1 | **Business Formation** | LLC setup, EIN, bank account, state tax registration |
-| 2 | **Contractor Licensing** | State contractor registration/licensing, specialty trades, prevailing wage |
-| 3 | **Surety Bonding** | Bond education + state-specific bond requirements |
-| 4 | **Insurance Coverage** | GL, workers' comp (monopolistic vs competitive vs private), commercial auto, tools, umbrella |
-| 5 | **Certifications & Set-Asides** | SAM.gov, SDVOSB, 8(a), HUBZone, DBE + state MBE/WBE programs |
-| 6 | **Union Signatory Contractor** | CBA walkthrough, trust fund obligations, hiring hall, local Ironworkers union info |
-| 7 | **Legal & Federal Contracting** | Construction attorney, NAICS codes, capability statements, set-aside contracts, first bid |
+| # | Phase | Steps | Scope |
+|---|-------|-------|-------|
+| 1 | **Business Formation** | 5 | LLC structure, filing, EIN, bank account, state tax registration |
+| 2 | **Contractor Licensing** | 3 | State license/registration, specialty classifications, prevailing wage |
+| 3 | **Surety Bonding** | 5 | Bond education (shared) + state-specific bond requirements |
+| 4 | **Insurance Coverage** | 5 | GL, workers' comp, commercial auto, tools/inland marine, umbrella |
+| 5 | **Certifications** | 6 | SAM.gov, SDVOSB, 8(a), HUBZone, DBE/MBE + state programs |
+| 6 | **Union Signatory** | 5 | CBA education, trust funds, signing process, bidding + state locals |
+| 7 | **Legal & Federal** | 5 | Attorney, NAICS codes, capability statement, set-asides, first bid |
 
-## Architecture
+---
 
-### Data-Driven Content System
+## Coverage
 
-Content uses a **hybrid hand-crafted + generated** approach:
+### State Data Points (per state)
 
-- **State Registry** (`state-registry.ts`) — Central data source with all 50 states' regulatory data, fees, URLs, agencies, Ironworkers local unions, and tax info (~2,000+ lines)
-- **Generators** (`generators/*.ts`) — 6 generator functions that produce `Phase` objects from registry data
-- **Hand-Crafted** — Washington and Oregon have detailed, hand-written content files for maximum accuracy
-- **Routing** (`phases.ts`) — Checks for hand-crafted content first, falls back to generated content
+| Field | Example (Colorado) |
+|-------|-------------------|
+| LLC Filing Fee | $50 |
+| Annual Report | $10 (Periodic Report) |
+| State Income Tax | Flat 4.4% |
+| Sales Tax | 2.9% + local |
+| Contractor License | None (local control) |
+| State Bond | Not required |
+| Workers' Comp | Competitive (Pinnacol Assurance) |
+| Prevailing Wage | No state law |
+| Certification Program | SBE/DBE/MBE/WBE |
+| Ironworkers Local | Local 24 (Denver) — covers CO + WY |
+| District Council | Rocky Mountain Area |
 
-Each state's data includes:
-- LLC filing fees and Secretary of State URLs
-- Income tax rates and sales tax details
-- Contractor licensing requirements (state-level vs local control)
-- Bond requirements and amounts
-- Workers' comp type (monopolistic / competitive state fund / private only)
-- Prevailing wage thresholds and agencies
-- State certification programs (MBE/WBE/DBE)
-- Ironworkers local union(s): name, number, city, phone, website, jurisdiction, and district council
+### Union Local Coverage
 
-### Workers' Compensation Classification
+Every state maps to one or more Ironworkers locals with:
+- Local name and number
+- City and jurisdictional coverage
+- Direct phone number
+- Local union hall website
+- District council affiliation
 
-| Type | States | Description |
-|------|--------|-------------|
-| **Monopolistic** | WA, OH, ND, WY | Must use state fund — no private carriers |
-| **Competitive** | OR, CO, UT, AZ, CA, NV, + many more | State fund available alongside private carriers |
-| **Private Only** | TX, FL, GA, AL, + many more | Private carriers only (TX: voluntary!) |
+States with multiple locals (e.g., CA: 433, 377, 118 · NY: 40, 580, 6, 12 · TX: 263, 84, 482) display all with jurisdiction boundaries.
 
-### Wizard Routing
+---
 
-The wizard uses dynamic App Router segments: `/wizard/[phase]/[step]`. Navigation between steps and phases is handled by `getNextStep()` and `getPrevStep()` functions that walk the phase/step tree.
+## Roadmap
 
-### AI Integration
+- [ ] Supabase backend (auth, persistent profiles, progress sync)
+- [ ] PDF export for checklists and capability statements
+- [ ] Admin CMS for state registry data management
+- [ ] Hand-crafted content expansion beyond WA/OR
+- [ ] Estimating calculator integration
+- [ ] Mobile-native app (React Native / Expo)
 
-The `/api/chat` route builds a context-aware system prompt using the user's current phase, step, state (all 50 supported), and profile. Responses stream back from Claude via the Anthropic SDK, giving the user a real-time conversational mentor experience.
+---
 
-### State Management
+## Contributing
 
-All user data (profile, wizard progress, chat history) is stored in localStorage. No authentication or database is required — the user can pick up where they left off by returning to the same browser.
+This is a proprietary project. Contributions are not currently accepted. If you're an ironworker, contractor, or industry professional with corrections to state-specific data, please open an issue.
 
-## Scripts
-
-```bash
-npm run dev        # Start dev server with Turbopack
-npm run build      # Production build
-npm start          # Start production server
-npm run lint       # Run ESLint
-npx tsc --noEmit   # Type check (no output)
-```
+---
 
 ## License
 
-All rights reserved. License TBD.
+All rights reserved. © 2026 Steel-Tech.
+
+---
+
+<div align="center">
+
+**Built for the ironworkers who build everything else.**
+
+</div>
