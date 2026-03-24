@@ -85,7 +85,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // === Rate limit /api/chat ===
