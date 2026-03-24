@@ -108,7 +108,7 @@ BANNER
 echo -e "${NC}"
 
 echo -e "  ${BOLD}AI-Powered Ironworker Business Wizard${NC}"
-echo -e "  ${DIM}Washington & Oregon Contractor Licensing${NC}"
+echo -e "  ${DIM}All 50 States — Licensing, Bonding, Insurance & Union Signatory${NC}"
 echo ""
 echo -e "  👉 Open here: ${BOLD}${GREEN}http://localhost:${PORT}${NC}"
 echo ""
