@@ -8,7 +8,7 @@ import { STATE_REGISTRY } from "@/content/state-registry";
 // ── API key (read at module load, checked per-request) ──────
 const apiKey = process.env.ANTHROPIC_API_KEY;
 
-const client = new Anthropic();
+const client = new Anthropic({ timeout: 30_000 });
 
 // ── Constants ────────────────────────────────────────────────
 const MAX_MESSAGES = 50;
@@ -57,16 +57,16 @@ function sanitizeString(s: string, maxLen: number): string {
 
 export async function POST(req: Request) {
   try {
-    // Reject oversized payloads (256 KB max)
-    const contentLength = req.headers.get("content-length");
-    if (contentLength && parseInt(contentLength, 10) > 256_000) {
+    // Reject oversized payloads (256 KB hard limit on body)
+    const bodyText = await req.text();
+    if (bodyText.length > 256_000) {
       return Response.json(
         { error: "Request too large" },
         { status: 413 }
       );
     }
 
-    const body = await req.json();
+    const body = JSON.parse(bodyText);
     const { messages, phaseId, stepId, profile } = body as {
       messages: unknown;
       phaseId: unknown;
@@ -119,7 +119,7 @@ export async function POST(req: Request) {
     }
 
     // ── Check API key at request time ──
-    if (!apiKey || apiKey === "sk-ant-your-key-here") {
+    if (!apiKey || apiKey === "your-anthropic-api-key-here") {
       return Response.json(
         { error: "AI service is not configured." },
         { status: 503 }

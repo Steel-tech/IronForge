@@ -25,9 +25,9 @@ setInterval(() => {
 }, 300_000);
 
 function getRateLimitKey(req: NextRequest): string {
-  const forwarded = req.headers.get("x-forwarded-for");
-  const ip = forwarded?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
-  return ip;
+  // Prefer platform-set headers over spoofable x-forwarded-for
+  // Vercel/Cloudflare set x-real-ip from the actual client connection
+  return req.headers.get("x-real-ip") || "unknown";
 }
 
 function isRateLimited(key: string): boolean {
@@ -72,7 +72,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
     "Content-Security-Policy",
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Next.js requires inline + eval in dev
+      `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'", // Tailwind injects inline styles
       "img-src 'self' data: blob:",
       "font-src 'self' https://fonts.gstatic.com",
@@ -88,19 +88,23 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // === Rate limit /api/chat ===
-  if (pathname === "/api/chat") {
-    // CSRF: verify Origin header matches
+  // === Rate limit /api/chat (POST only) ===
+  if (pathname === "/api/chat" && req.method === "POST") {
+    // CSRF: require and verify Origin header
     const origin = req.headers.get("origin");
     const host = req.headers.get("host");
-    if (origin && host) {
-      const originHost = new URL(origin).host;
-      if (originHost !== host) {
-        return NextResponse.json(
-          { error: "Forbidden" },
-          { status: 403 }
-        );
-      }
+    if (!origin || !host) {
+      return NextResponse.json(
+        { error: "Forbidden" },
+        { status: 403 }
+      );
+    }
+    const originHost = new URL(origin).host;
+    if (originHost !== host) {
+      return NextResponse.json(
+        { error: "Forbidden" },
+        { status: 403 }
+      );
     }
 
     // Rate limit

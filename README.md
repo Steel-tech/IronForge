@@ -13,7 +13,7 @@
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000?logo=shadcnui&logoColor=fff)](https://ui.shadcn.com/)
 [![Claude API](https://img.shields.io/badge/Claude_API-Anthropic-D4A574)](https://docs.anthropic.com/)
 [![Coverage](https://img.shields.io/badge/coverage-50_states-00f0ff)](#coverage)
-[![License](https://img.shields.io/badge/license-proprietary-333)](#license)
+[![License: MIT](https://img.shields.io/badge/license-MIT-00f0ff)](#license)
 
 <br />
 
@@ -296,18 +296,20 @@ States with multiple locals (e.g., CA: 433, 377, 118 · NY: 40, 580, 6, 12 · TX
 
 ## Contributing
 
-This is a proprietary project. Contributions are not currently accepted. If you're an ironworker, contractor, or industry professional with corrections to state-specific data, please open an issue.
+Contributions are welcome! If you're an ironworker, contractor, or industry professional with corrections to state-specific data, please open an issue or submit a pull request.
 
 ---
 
 ## License
 
-All rights reserved. © 2026 Steel-Tech.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
 <div align="center">
 
 **Built for the ironworkers who build everything else.**
+
+Made with grit by [StructuPath](https://github.com/Steel-tech)
 
 </div>
