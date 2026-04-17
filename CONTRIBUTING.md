@@ -98,7 +98,7 @@ council, trust fund percentages):
    submitting.
 
 For sensitive info (internal contacts, non-public CBA terms), email
-**licensing@structupath.com** instead of opening a public issue.
+**licensing@structupath.ai** instead of opening a public issue.
 
 ---
 
@@ -178,9 +178,9 @@ Scopes we use: `wa`, `or`, `tx`, `ca`, etc. for state-specific changes;
 ## Questions
 
 - **General:** open a GitHub Discussion.
-- **Security issue:** email **security@structupath.com** (do NOT open a
+- **Security issue:** email **security@structupath.ai** (do NOT open a
   public issue).
-- **Licensing / commercial use:** **licensing@structupath.com**.
+- **Licensing / commercial use:** **licensing@structupath.ai**.
 - **Regulatory data dispute:** open an issue with the `data:` prefix.
 
 Built for the ironworkers who build everything else.

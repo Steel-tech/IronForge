@@ -17,7 +17,7 @@ IronForge is offered under a **dual license**:
     organizations that cannot or will not comply with AGPL-3.0 (e.g. closed-
     source SaaS offerings, white-label resellers, integration into proprietary
     products, or use without source-disclosure obligations). Contact
-    licensing@structupath.com.
+    licensing@structupath.ai.
 
 If you are building a competing hosted product, embedding IronForge into a
 closed-source commercial offering, or otherwise cannot satisfy AGPL-3.0
@@ -71,7 +71,7 @@ A Commercial License is required if any of the following apply to your use:
 
 Commercial licenses are available at tiered rates. Contact:
 
-  licensing@structupath.com
+  licensing@structupath.ai
   https://ironforge.app/licensing
 
 ================================================================================
@@ -136,4 +136,4 @@ section 8 for reinstatement procedures.
 For the full text of AGPL-3.0, see the LICENSE-AGPL file in this
 repository or https://www.gnu.org/licenses/agpl-3.0.txt.
 
-For commercial licensing, contact licensing@structupath.com.
+For commercial licensing, contact licensing@structupath.ai.

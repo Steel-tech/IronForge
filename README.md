@@ -322,7 +322,7 @@ system, and the "StructuPath" name are trademarks and are **not** granted
 under AGPL-3.0 — forks must rename and re-skin.
 
 See [LICENSE](LICENSE) for full terms. For commercial licensing, contact
-**licensing@structupath.com**.
+**licensing@structupath.ai**.
 
 Contributions are accepted under the [Contributor License Agreement](CONTRIBUTING.md).
 
