@@ -1,139 +1,111 @@
-IronForge — Dual License (AGPL-3.0 + Commercial)
-Copyright (c) 2026 Steel-Tech / StructuPath. All rights reserved.
+# IronForge — License Overview
 
-================================================================================
-SUMMARY (non-binding — see full terms below)
-================================================================================
+> This document is a **reader-friendly overview** of how IronForge is
+> licensed. The legally binding texts are the sibling files:
+>
+> - **[`LICENSE`](../../LICENSE)** — verbatim AGPL-3.0 (GNU Affero
+>   General Public License, version 3).
+> - **[`LICENSE-COMMERCIAL.md`](../../LICENSE-COMMERCIAL.md)** — the
+>   companion Commercial License terms, trademark reservation, dataset
+>   restrictions, and contact for paid licenses.
+>
+> If anything in this overview conflicts with `LICENSE` or
+> `LICENSE-COMMERCIAL.md`, the sibling files control.
 
-IronForge is offered under a **dual license**:
+---
 
- 1. **GNU Affero General Public License, version 3 (AGPL-3.0)** — free to use,
-    modify, and self-host, *provided that* any modifications or network-
-    deployed derivatives are released under the same AGPL-3.0 terms, with
-    complete corresponding source code made available to every user who
-    interacts with the software over a network.
+## 1 · The Model: Dual License
 
- 2. **IronForge Commercial License** — available from StructuPath for
-    organizations that cannot or will not comply with AGPL-3.0 (e.g. closed-
-    source SaaS offerings, white-label resellers, integration into proprietary
-    products, or use without source-disclosure obligations). Contact
-    licensing@structupath.ai.
+IronForge uses a **dual-license** model common among open-source
+vertical-SaaS companies (Sentry, Mattermost, Plausible, Grafana):
 
-If you are building a competing hosted product, embedding IronForge into a
-closed-source commercial offering, or otherwise cannot satisfy AGPL-3.0
-section 13 (network interaction source-disclosure), you MUST obtain a
-commercial license before deploying.
+| Track | Audience | What it grants |
+|---|---|---|
+| **AGPL-3.0** | Individual ironworkers, researchers, transparent self-hosters, organizations willing to comply with AGPL §13 | Full right to use, modify, and self-host — *provided* every modification that users interact with over a network is released under AGPL-3.0 with full source disclosure. |
+| **Commercial License** | Closed-source SaaS operators, white-label resellers, IW district councils, surety/broker partnerships, enterprises, anyone wanting trademark retention or dataset-as-training-data rights | A paid, negotiated license that removes AGPL obligations and grants warranty, indemnification, SLA, and the quarterly regulatory update feed. |
 
-================================================================================
-1. AGPL-3.0 GRANT
-================================================================================
+**Rule of thumb:** if you're self-hosting IronForge for your own use
+(or your local's use) and you're willing to publish your changes — use
+AGPL-3.0. If you're building a product on top of IronForge for paying
+customers, or using the dataset to train anything — contact
+`licensing@structupath.ai`.
 
-Unless you have executed a separate written Commercial License Agreement with
-Steel-Tech / StructuPath ("Licensor"), this software and all associated
-documentation, content, state-regulatory data, generator functions, AI
-system prompts, UI components, and brand assets ("the Software") are
-licensed to you under the GNU Affero General Public License, version 3, a
-copy of which is included in the file LICENSE-AGPL and is also available at
-https://www.gnu.org/licenses/agpl-3.0.html.
+---
 
-You must comply with every term of AGPL-3.0, including but not limited to:
+## 2 · What Is Covered
 
-  (a) Section 5 — conveying modified source versions under the same license;
-  (b) Section 6 — conveying non-source forms with corresponding source;
-  (c) Section 13 — if you run a modified version on a server and let other
-      users interact with it remotely through a computer network, you MUST
-      offer those users the Corresponding Source of your modified version,
-      under AGPL-3.0, at no charge;
-  (d) Section 7 — no additional restrictions inconsistent with AGPL-3.0.
+**Code:** the Next.js application, React components, API routes,
+TypeScript type definitions, generator functions, and build tooling
+are licensed under AGPL-3.0.
 
-================================================================================
-2. COMMERCIAL LICENSE
-================================================================================
+**IronForge Content (see `LICENSE-COMMERCIAL.md` §4):** the 50-state
+regulatory dataset, Ironworkers local directory, hand-crafted WA/OR
+content, shared educational content, and AI system prompts are
+**copyrighted works** of Steel-Tech / StructuPath. They are licensed
+under AGPL-3.0 for use within the application, **but using them as
+training, fine-tuning, or RAG data for a separate product requires a
+Commercial License.**
 
-A Commercial License is required if any of the following apply to your use:
+**Trademarks:** "IronForge", the `⟨ I ⟩` I-beam mark, the cyberpunk
+visual design system, and "StructuPath" are **trademarks** and are
+**not** granted under AGPL-3.0. Public forks must rename and re-skin.
 
-  (a) You operate IronForge (modified or unmodified) as a hosted or SaaS
-      offering to third parties and do not wish to release your modifications
-      under AGPL-3.0;
-  (b) You bundle, embed, or redistribute the Software, in whole or part, as
-      a component of a proprietary product or service;
-  (c) You remove, obscure, or replace the "Powered by IronForge" attribution
-      or the IronForge brand marks in any public-facing deployment;
-  (d) You use the 50-state regulatory dataset, hand-crafted WA/OR content,
-      union local directory, or AI system prompts as training data, fine-
-      tuning corpus, retrieval-augmented-generation index, or dataset for
-      another product;
-  (e) You are a district council, local union, franchise, or enterprise
-      customer requiring indemnification, a service-level agreement,
-      warranty, or support beyond what AGPL-3.0 provides;
-  (f) Your legal, procurement, or compliance policies prohibit the use of
-      copyleft-licensed software in your stack.
+---
 
-Commercial licenses are available at tiered rates. Contact:
+## 3 · Common Scenarios
 
-  licensing@structupath.ai
-  https://ironforge.app/licensing
+| Scenario | License needed |
+|---|---|
+| Clone the repo, run it on your laptop, learn from it | ✅ AGPL-3.0 |
+| Self-host for your local union with the AGPL source published | ✅ AGPL-3.0 |
+| Fork, rename to "HardHatLaunch", re-skin, operate as a hosted service with source published under AGPL | ✅ AGPL-3.0 |
+| Run a hosted service that keeps the IronForge branding | ❌ Commercial |
+| Run a closed-source hosted service (don't want to publish modifications) | ❌ Commercial |
+| IW District Council deployment with SLA, support, quarterly updates | ❌ Commercial |
+| White-label surety-broker lead-gen product | ❌ Commercial |
+| Use the 50-state dataset to train / fine-tune a separate LLM product | ❌ Commercial |
+| Quote a sentence or statistic from IronForge in a blog post | ✅ nominative fair use, no license needed |
 
-================================================================================
-3. CONTENT, DATA, AND BRAND
-================================================================================
+---
 
-The 50-state regulatory data, Ironworkers local directory, hand-crafted
-Washington and Oregon content, shared educational content, and AI system
-prompts (collectively, "IronForge Content") are copyrighted works of
-Licensor. Under AGPL-3.0, you may use, modify, and redistribute the
-IronForge Content so long as your entire derivative work is licensed under
-AGPL-3.0 and you preserve the copyright notice and attribution.
+## 4 · Contributions
 
-The "IronForge" name, the ⟨ I ⟩ I-beam mark, the cyberpunk visual design
-system (neon cyan #00f0ff / magenta #ff00aa palette, matrix rain, Tron
-grid effects), and the "StructuPath" name are trademarks of Steel-Tech /
-StructuPath and are NOT granted under AGPL-3.0. You may not use these
-marks in any derivative, fork, or hosted deployment without prior written
-permission. You must rename and re-skin any public fork.
+Contributions accepted via pull request are governed by the
+[Contributor License Agreement in `CONTRIBUTING.md`](../../CONTRIBUTING.md),
+which grants Steel-Tech / StructuPath the right to relicense the
+contribution under both AGPL-3.0 and the Commercial License.
 
-================================================================================
-4. CONTRIBUTIONS
-================================================================================
+---
 
-Contributions submitted to the upstream IronForge repository are accepted
-under a Contributor License Agreement ("CLA") that grants Licensor a
-perpetual, worldwide, royalty-free license to relicense the contribution
-under both AGPL-3.0 and the Commercial License. By opening a pull request,
-you represent that you have the right to submit the contribution under
-those terms. The CLA is available at CONTRIBUTING.md.
+## 5 · Contacts
 
-================================================================================
-5. NO WARRANTY
-================================================================================
+| Purpose | Email |
+|---|---|
+| Commercial licensing, enterprise pricing, procurement | [licensing@structupath.ai](mailto:licensing@structupath.ai) |
+| Security vulnerabilities (not public) | [security@structupath.ai](mailto:security@structupath.ai) |
+| General | [hello@ironforge.app](mailto:hello@ironforge.app) |
 
-IronForge provides informational guidance about state licensing, bonding,
-insurance, and union signatory processes. It is NOT legal, tax, financial,
-or insurance advice. State regulations change; Licensor makes no warranty
-that the IronForge Content is current, complete, or error-free. Users are
-responsible for verifying requirements with the appropriate state agencies,
-local unions, attorneys, and licensed advisors before taking action.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE,
-ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+## 6 · Why We Picked AGPL + Commercial (not MIT, not strict proprietary)
 
-================================================================================
-6. TERMINATION
-================================================================================
+**Why not MIT?** MIT allows any SaaS competitor to fork IronForge,
+host it commercially, and retain no obligation back to the project.
+For a product whose moat is the regulatory dataset, MIT is giving the
+moat away.
 
-Any violation of AGPL-3.0 or the Commercial License terms, including
-failure to disclose corresponding source under section 13 of AGPL-3.0,
-automatically terminates your rights under this license. See AGPL-3.0
-section 8 for reinstatement procedures.
+**Why not strict proprietary / all-rights-reserved?** A working
+ironworker wants to inspect the code before trusting it with their
+business plan. Closed-source kills organic trust and the
+"built-by-the-trade" credibility that is a competitive advantage.
 
-================================================================================
+**Why AGPL-3.0 specifically?** AGPL §13 — the "network clause" — closes
+the SaaS loophole in GPL. A competitor can't take IronForge, modify it,
+and run it as a closed service. They either publish their
+modifications (which we benefit from) or they buy a Commercial License
+(which we also benefit from). Both outcomes serve the project.
 
-For the full text of AGPL-3.0, see the LICENSE-AGPL file in this
-repository or https://www.gnu.org/licenses/agpl-3.0.txt.
-
-For commercial licensing, contact licensing@structupath.ai.
+**The Commercial License exists so that** legitimate partners —
+district councils, surety underwriters, contractor associations — have
+a path to use IronForge that fits their legal posture (indemnification,
+SLA, no copyleft obligations for their own code).

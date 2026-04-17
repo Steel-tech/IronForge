@@ -304,26 +304,24 @@ Contributions are welcome! If you're an ironworker, contractor, or industry prof
 
 IronForge is offered under a **dual license**:
 
-1. **[GNU Affero General Public License v3.0](LICENSE-AGPL)** — free to use,
-   modify, and self-host, provided that any modifications or network-deployed
-   derivatives are released under the same AGPL-3.0 terms, with complete
-   corresponding source code made available to every user who interacts with
-   the software over a network (AGPL §13).
+1. **[GNU Affero General Public License v3.0](LICENSE)** (default, free) —
+   use, modify, and self-host, provided that any modifications or
+   network-deployed derivatives are released under AGPL-3.0 with complete
+   corresponding source code made available to every user who interacts
+   with the software over a network (AGPL §13).
 
-2. **IronForge Commercial License** — required for closed-source SaaS
-   offerings, white-label resellers, embedding in proprietary products, or
-   any use incompatible with AGPL-3.0's source-disclosure obligations. Also
-   required for use of the 50-state regulatory dataset, Ironworkers local
-   directory, or hand-crafted content as training/fine-tuning/RAG data for
-   another product.
+2. **[IronForge Commercial License](LICENSE-COMMERCIAL.md)** — required for
+   closed-source SaaS offerings, white-label resellers, embedding in
+   proprietary products, retention of the IronForge trademarks or brand in a
+   public deployment, or use of the 50-state regulatory dataset / Ironworkers
+   local directory / hand-crafted content as training, fine-tuning, or RAG
+   data for another product.
 
 The "IronForge" name, the `⟨ I ⟩` I-beam mark, the cyberpunk design
 system, and the "StructuPath" name are trademarks and are **not** granted
-under AGPL-3.0 — forks must rename and re-skin.
+under AGPL-3.0 — public forks must rename and re-skin.
 
-See [LICENSE](LICENSE) for full terms. For commercial licensing, contact
-**licensing@structupath.ai**.
-
+For commercial licensing, contact **[licensing@structupath.ai](mailto:licensing@structupath.ai)**.
 Contributions are accepted under the [Contributor License Agreement](CONTRIBUTING.md).
 
 ---
