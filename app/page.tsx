@@ -2,6 +2,16 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Calculator,
+  FileText,
+  GitCompare,
+  Package,
+  Users,
+  Building2,
+  FolderLock,
+} from "lucide-react";
 import { loadUserState, saveUserState } from "@/lib/store/user-profile";
 import type { UserProfile } from "@/lib/types/wizard";
 import { DEFAULT_PROFILE, DEFAULT_STATE } from "@/lib/types/wizard";
@@ -10,8 +20,10 @@ import type { StateCode } from "@/content/phases";
 import { STATE_REGISTRY } from "@/content/state-registry";
 import { MatrixRain } from "@/components/ui/matrix-rain";
 import { TronGrid } from "@/components/ui/tron-grid";
-import { ArrowRight, ChevronLeft, Search } from "lucide-react";
+import { ArrowRight, ChevronLeft, Search, Sparkles } from "lucide-react";
 import { IBeamIcon } from "@/components/ui/ibeam-icon";
+import { DecryptedText } from "@/components/ui/decrypted-text";
+import { OnboardingChat } from "@/components/onboarding/onboarding-chat";
 
 const ALL_STATES = Object.values(STATE_REGISTRY).sort((a, b) =>
   a.name.localeCompare(b.name)
@@ -20,7 +32,9 @@ const ALL_STATES = Object.values(STATE_REGISTRY).sort((a, b) =>
 export default function HomePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
-  const [step, setStep] = useState<"welcome" | "state" | "profile">("welcome");
+  const [step, setStep] = useState<
+    "welcome" | "state" | "profile" | "ai-chat"
+  >("welcome");
   const [hasExisting, setHasExisting] = useState(false);
   const [stateSearch, setStateSearch] = useState("");
 
@@ -29,6 +43,10 @@ export default function HomePage() {
     if (existing.profile.state) {
       setHasExisting(true);
     }
+  }, []);
+
+  useEffect(() => {
+    document.title = "IronForge — Contractor Launchpad";
   }, []);
 
   const filteredStates = useMemo(() => {
@@ -59,6 +77,10 @@ export default function HomePage() {
     setStep("state");
   }
 
+  function handleStartAIChat() {
+    setStep("ai-chat");
+  }
+
   function handleStateSelect(code: string) {
     setProfile((p) => ({ ...p, state: code }));
     setStep("profile");
@@ -81,6 +103,13 @@ export default function HomePage() {
     router.push(`/wizard/${firstPhase}/${firstStep}`);
   }
 
+  // ═══════════ CONVERSATIONAL ONBOARDING ═══════════
+  // Rendered full-screen outside the centered shell so the chat owns the
+  // viewport. Falls back to the form flow via the exit button.
+  if (step === "ai-chat") {
+    return <OnboardingChat onExit={() => setStep("welcome")} />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden tron-grid">
       {/* Background effects */}
@@ -98,8 +127,18 @@ export default function HomePage() {
                 <IBeamIcon className="w-8 h-8 text-neon-cyan animate-neon-pulse" />
               </div>
               <h1 className="text-5xl md:text-6xl font-mono font-bold tracking-tight">
-                <span className="text-text-primary glitch-text">IRON</span>
-                <span className="text-neon-cyan text-glow-cyan">FORGE</span>
+                <DecryptedText
+                  text="IRON"
+                  speed={35}
+                  revealIterations={3}
+                  className="text-text-primary glitch-text"
+                />
+                <DecryptedText
+                  text="FORGE"
+                  speed={35}
+                  revealIterations={3}
+                  className="text-neon-cyan text-glow-cyan"
+                />
               </h1>
               <p className="text-lg text-text-secondary max-w-lg mx-auto leading-relaxed">
                 Your AI-powered guide to starting an ironwork contracting
@@ -145,14 +184,138 @@ export default function HomePage() {
                 </button>
               )}
               <button
+                onClick={handleStartAIChat}
+                className="w-full py-3.5 px-6 rounded-lg font-mono font-semibold text-sm tracking-wide btn-neon-magenta inline-flex items-center justify-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                SET UP WITH AI CHAT
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
                 onClick={handleStartNew}
                 className={`w-full py-3.5 px-6 rounded-lg font-mono font-semibold text-sm tracking-wide ${
-                  hasExisting ? "btn-neon-cyan" : "btn-neon-solid"
+                  hasExisting ? "btn-neon-cyan" : "btn-neon-cyan"
                 }`}
               >
-                {hasExisting ? "INITIALIZE NEW" : "INITIALIZE"}{" "}
+                {hasExisting ? "INITIALIZE NEW (FORM)" : "CLASSIC FORM SETUP"}{" "}
                 <ArrowRight className="inline w-4 h-4 ml-1" />
               </button>
+            </div>
+
+            {/* Secondary tools nav */}
+            <div className="max-w-lg mx-auto pt-2 space-y-2">
+              <div className="flex items-center gap-3">
+                <span className="h-px flex-1 bg-cyber-border" />
+                <span className="font-mono text-[10px] text-text-muted tracking-[0.3em]">
+                  TOOLS
+                </span>
+                <span className="h-px flex-1 bg-cyber-border" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Link
+                  href="/capability-statement"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-magenta/40 hover:bg-neon-magenta/5 transition-all"
+                >
+                  <FileText className="w-3.5 h-3.5 text-neon-magenta shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-magenta transition-colors">
+                      CAPABILITY STATEMENT
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Build &amp; export one-pager
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/starter-kit"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-amber/40 hover:bg-neon-amber/5 transition-all"
+                >
+                  <Package className="w-3.5 h-3.5 text-neon-amber shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-amber transition-colors">
+                      STARTER KIT
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Printable startup binder
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/estimator"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-cyan/40 hover:bg-neon-cyan/5 transition-all"
+                >
+                  <Calculator className="w-3.5 h-3.5 text-neon-cyan shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-cyan transition-colors">
+                      ESTIMATOR
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Steel erection quote
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/compare"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-green/40 hover:bg-neon-green/5 transition-all"
+                >
+                  <GitCompare className="w-3.5 h-3.5 text-neon-green shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-green transition-colors">
+                      COMPARE STATES
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Side-by-side analysis
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/unions"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-cyan/40 hover:bg-neon-cyan/5 transition-all"
+                >
+                  <Users className="w-3.5 h-3.5 text-neon-cyan shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-cyan transition-colors">
+                      UNIONS
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Locals, CBA, trust funds
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/gc-directory"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-magenta/40 hover:bg-neon-magenta/5 transition-all"
+                >
+                  <Building2 className="w-3.5 h-3.5 text-neon-magenta shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-magenta transition-colors">
+                      GC DIRECTORY
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Major GCs + prequal checklist
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  href="/vault"
+                  className="group inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-cyber-border bg-cyber-dark/50 hover:border-neon-amber/40 hover:bg-neon-amber/5 transition-all"
+                >
+                  <FolderLock className="w-3.5 h-3.5 text-neon-amber shrink-0" />
+                  <div className="text-left">
+                    <div className="font-mono text-[11px] font-semibold text-text-primary group-hover:text-neon-amber transition-colors">
+                      DOCUMENT VAULT
+                    </div>
+                    <div className="text-[9px] text-text-muted font-mono">
+                      Formation, bonding, COIs
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              {!hasExisting && (
+                <p className="text-[10px] text-text-muted font-mono italic text-center pt-1">
+                  Tip: select a state first to see your-state highlights.
+                </p>
+              )}
             </div>
 
             {/* Footer tag */}

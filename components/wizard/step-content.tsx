@@ -1,9 +1,11 @@
 "use client";
 
 import type { Step } from "@/lib/types/content";
+import type { UserProfile } from "@/lib/types/wizard";
 import { Checklist } from "./checklist";
 import { CostCard } from "./cost-card";
 import { ResourceLink } from "./resource-link";
+import { CoachTip } from "./coach-tip";
 import {
   ChevronLeft,
   ChevronRight,
@@ -17,27 +19,40 @@ import {
 interface StepContentProps {
   step: Step;
   phaseTitle: string;
+  phaseId?: string;
+  profile?: UserProfile;
   completedItems: string[];
   onToggleItem: (itemId: string) => void;
   onNext?: () => void;
   onPrev?: () => void;
   hasNext: boolean;
   hasPrev: boolean;
+  footerExtra?: React.ReactNode;
+  /** Optional content rendered above the step header (used for nudge banners). */
+  headerExtra?: React.ReactNode;
+  /** Invoked when the user clicks "more tips" in the coach card. */
+  onAskChat?: (question: string) => void;
 }
 
 export function StepContent({
   step,
   phaseTitle,
+  phaseId,
+  profile,
   completedItems,
   onToggleItem,
   onNext,
   onPrev,
   hasNext,
   hasPrev,
+  footerExtra,
+  headerExtra,
+  onAskChat,
 }: StepContentProps) {
   return (
     <div className="flex-1 overflow-y-auto scrollbar-thin bg-cyber-black">
       <div className="max-w-3xl mx-auto p-6 md:p-8 space-y-8">
+        {headerExtra}
         {/* Header */}
         <div className="space-y-3 animate-fade-in-up">
           <div className="text-xs text-neon-cyan font-mono tracking-widest uppercase">
@@ -55,6 +70,18 @@ export function StepContent({
             {step.description}
           </p>
         </div>
+
+        {/* AI Coach — only when we have both phaseId and profile context. */}
+        {phaseId && profile && (
+          <div className="animate-fade-in-up stagger-2">
+            <CoachTip
+              phaseId={phaseId}
+              stepId={step.id}
+              profile={profile}
+              onAskChat={onAskChat}
+            />
+          </div>
+        )}
 
         {/* Cost & Time */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in-up stagger-2">
@@ -181,6 +208,8 @@ export function StepContent({
             </button>
           )}
         </div>
+
+        {footerExtra}
       </div>
     </div>
   );

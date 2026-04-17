@@ -16,6 +16,56 @@ const MAX_MESSAGE_LENGTH = 10_000;
 const VALID_ROLES = new Set(["user", "assistant"]);
 const VALID_STATES = new Set(Object.keys(STATE_REGISTRY));
 
+// ── Rate limiting (in-memory, per-IP) ───────────────────────
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX = 20; // 20 requests / minute / IP
+const rateLimitStore = new Map<string, number[]>();
+
+function getClientIp(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0].trim();
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  const cfIp = req.headers.get("cf-connecting-ip");
+  if (cfIp) return cfIp.trim();
+  return "unknown";
+}
+
+function checkRateLimit(ip: string): {
+  allowed: boolean;
+  retryAfter: number;
+} {
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
+  const timestamps = rateLimitStore.get(ip) ?? [];
+  // Prune old entries
+  const recent = timestamps.filter((t) => t > windowStart);
+
+  if (recent.length >= RATE_LIMIT_MAX) {
+    const oldest = recent[0];
+    const retryAfter = Math.max(
+      1,
+      Math.ceil((oldest + RATE_LIMIT_WINDOW_MS - now) / 1000)
+    );
+    rateLimitStore.set(ip, recent);
+    return { allowed: false, retryAfter };
+  }
+
+  recent.push(now);
+  rateLimitStore.set(ip, recent);
+
+  // Opportunistic cleanup: drop stale IPs if store grows
+  if (rateLimitStore.size > 1000) {
+    for (const [key, ts] of rateLimitStore.entries()) {
+      const stillRecent = ts.filter((t) => t > windowStart);
+      if (stillRecent.length === 0) rateLimitStore.delete(key);
+      else rateLimitStore.set(key, stillRecent);
+    }
+  }
+
+  return { allowed: true, retryAfter: 0 };
+}
+
 // ── Validation helpers ───────────────────────────────────────
 
 function validateMessages(
@@ -57,6 +107,23 @@ function sanitizeString(s: string, maxLen: number): string {
 
 export async function POST(req: Request) {
   try {
+    // ── Rate limit by IP ──
+    const ip = getClientIp(req);
+    const { allowed, retryAfter } = checkRateLimit(ip);
+    if (!allowed) {
+      return Response.json(
+        {
+          error: `Too many requests. Please wait ${retryAfter}s before trying again.`,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfter),
+          },
+        }
+      );
+    }
+
     // Reject oversized payloads (256 KB hard limit on body)
     const bodyText = await req.text();
     if (bodyText.length > 256_000) {

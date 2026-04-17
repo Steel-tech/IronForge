@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0a0a0f"/>
+  <rect x="48" y="48" width="416" height="416" rx="64" fill="none" stroke="#00f0ff" stroke-width="6" opacity="0.35"/>
+  <!-- I-beam (wide-flange cross-section) -->
+  <g stroke="#00f0ff" stroke-width="20" stroke-linecap="round" fill="none" filter="url(#glow)">
+    <!-- Top flange -->
+    <line x1="112" y1="128" x2="400" y2="128"/>
+    <line x1="112" y1="168" x2="400" y2="168"/>
+    <!-- Bottom flange -->
+    <line x1="112" y1="344" x2="400" y2="344"/>
+    <line x1="112" y1="384" x2="400" y2="384"/>
+    <!-- Web (vertical) -->
+    <line x1="256" y1="128" x2="256" y2="384"/>
+  </g>
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

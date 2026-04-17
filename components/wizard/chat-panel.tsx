@@ -4,8 +4,10 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import type { ChatMessage } from "@/lib/types/chat";
 import type { Step } from "@/lib/types/content";
 import type { UserProfile } from "@/lib/types/wizard";
-import { X, Send, MessageSquare } from "lucide-react";
+import { X, Send, MessageSquare, Mic, MicOff } from "lucide-react";
 import { IBeamIcon } from "@/components/ui/ibeam-icon";
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { useVoiceInput } from "@/lib/hooks/use-voice-input";
 
 interface ChatPanelProps {
   messages: ChatMessage[];
@@ -31,6 +33,29 @@ export function ChatPanel({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // ══ Voice input ══
+  // While listening, the live transcript is mirrored into the textarea so
+  // the user can see what's being captured. On stop we leave the final
+  // transcript in place so the user can edit before sending.
+  const {
+    isListening,
+    transcript,
+    startListening,
+    stopListening,
+    isSupported: voiceSupported,
+    error: voiceError,
+  } = useVoiceInput();
+  const inputBeforeListeningRef = useRef<string>("");
+
+  useEffect(() => {
+    if (isListening) {
+      // Mirror the live transcript into the textarea on each update
+      const base = inputBeforeListeningRef.current;
+      const combined = base ? `${base} ${transcript}`.trim() : transcript;
+      setInput(combined);
+    }
+  }, [transcript, isListening]);
+
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
@@ -41,10 +66,24 @@ export function ChatPanel({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // If the user hits send while mic is open, cut it off cleanly first.
+    if (isListening) stopListening();
     const trimmed = input.trim();
     if (!trimmed || isStreaming) return;
     onSendMessage(trimmed);
     setInput("");
+    inputBeforeListeningRef.current = "";
+  }
+
+  function handleToggleMic() {
+    if (isListening) {
+      stopListening();
+      return;
+    }
+    // Capture whatever the user has already typed so we can append to it
+    // rather than replacing it when the transcript comes in.
+    inputBeforeListeningRef.current = input;
+    startListening();
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -67,6 +106,7 @@ export function ChatPanel({
           onClick={onToggle}
           className="p-2 text-neon-magenta hover:bg-neon-magenta/10 rounded-lg transition-all"
           title="Open AI Mentor Chat"
+          aria-label="Open AI Mentor Chat"
         >
           <MessageSquare className="w-5 h-5" />
         </button>
@@ -93,6 +133,7 @@ export function ChatPanel({
         </div>
         <button
           onClick={onToggle}
+          aria-label="Close chat panel"
           className="p-1.5 text-text-muted hover:text-neon-magenta rounded transition-colors"
         >
           <X className="w-4 h-4" />
@@ -100,7 +141,13 @@ export function ChatPanel({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
+      <div
+        role="log"
+        aria-label="Chat messages"
+        aria-live="polite"
+        aria-relevant="additions text"
+        className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin"
+      >
         {messages.length === 0 && !isStreaming && (
           <div className="space-y-4">
             <div className="text-center text-text-muted text-xs font-mono py-4">
@@ -142,8 +189,8 @@ export function ChatPanel({
             ) : (
               <div className="max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed bg-cyber-surface border border-cyber-border relative">
                 <div className="absolute top-0 bottom-0 left-0 w-0.5 rounded-full bg-neon-magenta/40" />
-                <div className="whitespace-pre-wrap text-text-secondary pl-1">
-                  {msg.content}
+                <div className="pl-1">
+                  <MarkdownRenderer content={msg.content} />
                 </div>
               </div>
             )}
@@ -154,8 +201,8 @@ export function ChatPanel({
           <div className="animate-fade-in">
             <div className="max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed bg-cyber-surface border border-cyber-border relative">
               <div className="absolute top-0 bottom-0 left-0 w-0.5 rounded-full bg-neon-magenta/40 animate-neon-pulse" />
-              <div className="whitespace-pre-wrap text-text-secondary pl-1">
-                {streamingContent}
+              <div className="pl-1">
+                <MarkdownRenderer content={streamingContent} />
               </div>
               <span className="inline-flex gap-1 ml-1">
                 <span className="streaming-dot w-1.5 h-1.5 bg-neon-magenta rounded-full inline-block" />
@@ -187,21 +234,77 @@ export function ChatPanel({
           <textarea
             ref={inputRef}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              // If the user manually edits while mic is open, anchor the
+              // base so their edits survive the next transcript tick.
+              if (isListening) inputBeforeListeningRef.current = e.target.value;
+            }}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about this step..."
+            placeholder={
+              isListening ? "Listening... speak now" : "Ask about this step..."
+            }
             rows={1}
-            className="flex-1 px-3 py-2.5 rounded-lg bg-cyber-dark border border-cyber-border text-text-primary placeholder-text-muted font-mono text-sm resize-none cyber-focus transition-all"
+            className={`flex-1 px-3 py-2.5 rounded-lg bg-cyber-dark border text-text-primary placeholder-text-muted font-mono text-sm resize-none cyber-focus transition-all ${
+              isListening
+                ? "border-neon-magenta animate-neon-pulse"
+                : "border-cyber-border"
+            }`}
+            style={
+              isListening
+                ? {
+                    boxShadow:
+                      "0 0 0 1px rgba(255, 0, 200, 0.45), 0 0 12px rgba(255, 0, 200, 0.35)",
+                  }
+                : undefined
+            }
             disabled={isStreaming}
           />
+          {voiceSupported && (
+            <button
+              type="button"
+              onClick={handleToggleMic}
+              disabled={isStreaming}
+              aria-label={
+                isListening ? "Stop voice input" : "Start voice input"
+              }
+              aria-pressed={isListening}
+              title={isListening ? "Stop voice input" : "Voice input"}
+              className={`px-3 py-2.5 rounded-lg border text-sm font-mono font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
+                isListening
+                  ? "border-neon-magenta bg-neon-magenta/20 text-neon-magenta animate-neon-pulse"
+                  : "border-cyber-border bg-cyber-dark text-text-muted hover:text-neon-magenta hover:border-neon-magenta/50"
+              }`}
+              style={
+                isListening
+                  ? {
+                      boxShadow:
+                        "0 0 10px rgba(255, 0, 200, 0.5), 0 0 20px rgba(255, 0, 200, 0.3)",
+                    }
+                  : undefined
+              }
+            >
+              {isListening ? (
+                <MicOff className="w-4 h-4" />
+              ) : (
+                <Mic className="w-4 h-4" />
+              )}
+            </button>
+          )}
           <button
             type="submit"
             disabled={isStreaming || !input.trim()}
+            aria-label="Send message"
             className="px-3 py-2.5 rounded-lg btn-neon-magenta disabled:opacity-30 disabled:cursor-not-allowed text-sm font-mono font-medium transition-all"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
+        {voiceError && (
+          <div className="text-[10px] text-neon-red mt-1.5 px-1 font-mono">
+            {voiceError}
+          </div>
+        )}
         <div className="text-[10px] text-text-muted mt-1.5 px-1 font-mono">
           AI responses are educational. Verify at official sources.
         </div>

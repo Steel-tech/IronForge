@@ -2,6 +2,7 @@
 
 import type { ChecklistItem } from "@/lib/types/content";
 import { Check, ExternalLink } from "lucide-react";
+import { ClickSpark } from "@/components/ui/click-spark";
 
 interface ChecklistProps {
   items: ChecklistItem[];
@@ -11,12 +12,17 @@ interface ChecklistProps {
 
 export function Checklist({ items, completedItems, onToggle }: ChecklistProps) {
   return (
-    <div className="space-y-2">
+    <div role="list" aria-label="Checklist" className="space-y-2">
       {items.map((item) => {
         const completed = completedItems.includes(item.id);
+        const checkboxLabel = `${completed ? "Uncheck" : "Check"}: ${item.label}${item.description ? ` — ${item.description}` : ""}`;
         return (
-          <div
+          <ClickSpark
             key={item.id}
+            role="listitem"
+            sparkColor="var(--color-neon-green, #22c55e)"
+            sparkCount={12}
+            shouldSpark={() => !completed}
             className={`flex items-start gap-3 p-3.5 rounded-lg border transition-all cursor-pointer group ${
               completed
                 ? "bg-neon-green/5 border-neon-green/20 neon-border-green"
@@ -26,7 +32,18 @@ export function Checklist({ items, completedItems, onToggle }: ChecklistProps) {
           >
             <div className="mt-0.5">
               <div
-                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                role="checkbox"
+                aria-checked={completed}
+                aria-label={checkboxLabel}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === " " || e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onToggle(item.id);
+                  }
+                }}
+                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all cyber-focus ${
                   completed
                     ? "bg-neon-green/20 border-neon-green text-neon-green"
                     : "border-cyber-border-bright group-hover:border-neon-cyan/50"
@@ -63,7 +80,7 @@ export function Checklist({ items, completedItems, onToggle }: ChecklistProps) {
                 </a>
               )}
             </div>
-          </div>
+          </ClickSpark>
         );
       })}
     </div>

@@ -1,3 +1,7 @@
+"use client";
+
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+
 interface CostCardProps {
   icon: string;
   label: string;
@@ -7,7 +11,11 @@ interface CostCardProps {
 
 export function CostCard({ icon, label, value, note }: CostCardProps) {
   return (
-    <div className="relative bg-cyber-dark border border-cyber-border rounded-xl p-4 transition-all hover:border-neon-cyan/20">
+    <SpotlightCard
+      spotlightColor="rgba(34, 211, 238, 0.18)"
+      radius={280}
+      className="relative bg-cyber-dark border border-cyber-border rounded-xl p-4 transition-all hover:border-neon-cyan/20"
+    >
       {/* Top accent */}
       <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent" />
 
@@ -19,8 +27,10 @@ export function CostCard({ icon, label, value, note }: CostCardProps) {
         {value}
       </div>
       {note && (
-        <div className="text-[11px] text-text-muted font-mono mt-1.5">{note}</div>
+        <div className="text-[11px] text-text-muted font-mono mt-1.5">
+          {note}
+        </div>
       )}
-    </div>
+    </SpotlightCard>
   );
 }
