@@ -13,7 +13,7 @@
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000?logo=shadcnui&logoColor=fff)](https://ui.shadcn.com/)
 [![Claude API](https://img.shields.io/badge/Claude_API-Anthropic-D4A574)](https://docs.anthropic.com/)
 [![Coverage](https://img.shields.io/badge/coverage-50_states-00f0ff)](#coverage)
-[![License: MIT](https://img.shields.io/badge/license-MIT-00f0ff)](#license)
+[![License: AGPL-3.0 + Commercial](https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commercial-00f0ff)](#license)
 
 <br />
 
@@ -302,7 +302,29 @@ Contributions are welcome! If you're an ironworker, contractor, or industry prof
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+IronForge is offered under a **dual license**:
+
+1. **[GNU Affero General Public License v3.0](LICENSE-AGPL)** — free to use,
+   modify, and self-host, provided that any modifications or network-deployed
+   derivatives are released under the same AGPL-3.0 terms, with complete
+   corresponding source code made available to every user who interacts with
+   the software over a network (AGPL §13).
+
+2. **IronForge Commercial License** — required for closed-source SaaS
+   offerings, white-label resellers, embedding in proprietary products, or
+   any use incompatible with AGPL-3.0's source-disclosure obligations. Also
+   required for use of the 50-state regulatory dataset, Ironworkers local
+   directory, or hand-crafted content as training/fine-tuning/RAG data for
+   another product.
+
+The "IronForge" name, the `⟨ I ⟩` I-beam mark, the cyberpunk design
+system, and the "StructuPath" name are trademarks and are **not** granted
+under AGPL-3.0 — forks must rename and re-skin.
+
+See [LICENSE](LICENSE) for full terms. For commercial licensing, contact
+**licensing@structupath.com**.
+
+Contributions are accepted under the [Contributor License Agreement](CONTRIBUTING.md).
 
 ---
 
