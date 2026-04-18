@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";

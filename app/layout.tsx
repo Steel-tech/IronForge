@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";

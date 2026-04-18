@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { useMemo, useState } from "react";
 import { TRUST_FUND_DEFAULTS } from "@/lib/unions/union-data";
 

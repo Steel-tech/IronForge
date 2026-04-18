@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * Union data utilities — re-organize ironworkers locals from STATE_REGISTRY
  * for the Unions dashboard. The registry stores locals per state (often the

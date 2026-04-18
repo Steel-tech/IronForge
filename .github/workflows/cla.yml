@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# CLA Assistant Lite — posts a comment on every PR asking the contributor
+# to sign the CLA (cla.md). Signatures are recorded in a private
+# repository/branch and checked on every subsequent PR from that author.
+#
+# Docs: https://github.com/contributor-assistant/github-action
+#
+# Setup required (one-time, by a repo admin):
+#   1. Create a Personal Access Token (classic) with `repo` scope OR
+#      a fine-grained PAT with read/write to `IronForge-Signatures`.
+#      Call it PERSONAL_ACCESS_TOKEN.
+#   2. Repo → Settings → Secrets and variables → Actions → New repo secret:
+#      name  = PERSONAL_ACCESS_TOKEN
+#      value = <the PAT>
+#   3. Create an empty private repo named `IronForge-Signatures` owned by
+#      `Steel-tech`. The bot will commit a `signatures/version1/cla.json`
+#      into it. This keeps signatures out of the public repo.
+
+name: CLA Assistant
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, synchronize, closed]
+
+# Read/write perms needed for the action to comment on PRs and update
+# the signatures repo on our behalf.
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  cla:
+    runs-on: ubuntu-latest
+    if: >
+      (github.event.issue.pull_request
+         && contains(github.event.comment.body, 'I have read the CLA Document and I hereby sign the CLA'))
+      || github.event_name == 'pull_request_target'
+    steps:
+      - name: "CLA Assistant"
+        uses: contributor-assistant/github-action@v2.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          path-to-signatures: "signatures/version1/cla.json"
+          path-to-document: "https://github.com/Steel-tech/IronForge/blob/main/cla.md"
+          branch: "main"
+          # Private repo where signatures are stored.
+          remote-organization-name: "Steel-tech"
+          remote-repository-name: "IronForge-Signatures"
+          # Trigger phrase contributors must post in a PR comment.
+          custom-pr-sign-comment: "I have read the CLA Document and I hereby sign the CLA"
+          # Maintainers / bots exempted from the CLA.
+          allowlist: "dependabot[bot],renovate[bot],github-actions[bot]"
+          # Require a fresh sign-off when the CLA text materially changes.
+          create-file-commit-message: "chore(cla): record new signature"
+          signed-commit-message: "$contributorName has signed the CLA in $owner/$repo#$pullRequestNo"
+          lock-pullrequest-aftermerge: false

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import type { UserProfile } from "@/lib/types/wizard";
 import { STATE_REGISTRY } from "@/content/state-registry";
 

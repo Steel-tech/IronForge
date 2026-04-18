@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { useState, useRef, useEffect, useCallback } from "react";
 import type { ChatMessage } from "@/lib/types/chat";
 import type { Step } from "@/lib/types/content";

@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import type { ChecklistItem } from "@/lib/types/content";
 import { Check, ExternalLink } from "lucide-react";
 import { ClickSpark } from "@/components/ui/click-spark";

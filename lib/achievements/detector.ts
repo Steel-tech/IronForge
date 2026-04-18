@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * Achievement detection engine.
  * Pure functions — given a UserState + some auxiliary metrics, returns

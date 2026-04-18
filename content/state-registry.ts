@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * STATE REGISTRY — All 50 US States
  * Central data source for IronForge content generation.

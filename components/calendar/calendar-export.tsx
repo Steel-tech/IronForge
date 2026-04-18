@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { Download } from "lucide-react";
 import type { ComplianceEvent } from "@/lib/calendar/compliance-dates";
 

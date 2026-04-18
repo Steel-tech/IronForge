@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Nudge, NudgeType } from "@/lib/notifications/nudge-engine";

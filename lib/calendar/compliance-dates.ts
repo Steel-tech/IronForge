@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * Compliance Calendar Data Engine
  * Generates a personalized list of compliance deadlines based on the user's

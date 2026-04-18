@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import type { Resource } from "@/lib/types/content";
 import { FileText, Globe, BookOpen, Phone, Building2, ExternalLink } from "lucide-react";
 

@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * Nudge dismissal persistence. Stores dismissed nudge IDs and the last
  * visit timestamp the nudge engine uses for "haven't visited in N days".

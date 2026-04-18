@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /* IronForge Service Worker
  * Provides basic offline support:
  *   - Precaches shell (manifest, icon, offline page) on install

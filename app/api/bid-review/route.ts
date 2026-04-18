@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import Anthropic from "@anthropic-ai/sdk";
 import { buildBidReviewPrompt } from "@/lib/ai/bid-review-prompt";
 

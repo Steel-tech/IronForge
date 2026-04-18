@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import Link from "next/link";
 import { ArrowRight, Check, CircleDashed, Loader2 } from "lucide-react";
 

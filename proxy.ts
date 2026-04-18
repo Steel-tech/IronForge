@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

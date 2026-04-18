@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import type { ChatMessage, ChatState } from "@/lib/types/chat";
 
 const STORAGE_KEY = "ironforge_chat_history";

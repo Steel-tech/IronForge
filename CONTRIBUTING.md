@@ -104,43 +104,36 @@ For sensitive info (internal contacts, non-public CBA terms), email
 
 ## Contributor License Agreement (CLA)
 
-By submitting a pull request, issue-attached patch, code suggestion, or
-any other contribution ("Contribution") to the IronForge repository, you
-agree to the following:
+All Contributions are accepted under the **[IronForge CLA](cla.md)**.
+The full legal text lives in [`cla.md`](cla.md); the short version:
 
-1. **Grant of license.** You grant Steel-Tech / StructuPath ("Licensor")
-   a perpetual, worldwide, non-exclusive, royalty-free, irrevocable
-   license to use, reproduce, modify, display, perform, sublicense, and
-   distribute your Contribution, **and to relicense your Contribution
-   under both the AGPL-3.0 license and the IronForge Commercial License
-   described in [LICENSE](LICENSE)**, including any future version of
-   either license.
+1. You grant Licensor a perpetual, worldwide, royalty-free license to
+   use your Contribution and to **relicense it under both AGPL-3.0 and
+   the IronForge Commercial License** (see [`LICENSE-COMMERCIAL.md`](LICENSE-COMMERCIAL.md)).
+2. You confirm each Contribution is your original work (or you have
+   the right to submit it).
+3. Licensor has no obligation to accept, merge, or ship any Contribution.
+4. Contributions are provided "as is" with no warranty.
+5. If you're contributing on behalf of an employer, union, or other
+   organization, you represent that you're authorized to bind it.
 
-2. **Original work.** You represent that each Contribution is your
-   original work, or that you have the right to submit it (e.g. your
-   employer has given you permission, or the Contribution is itself
-   under a compatible permissive license and you have noted that).
+### How signing works
 
-3. **No obligation.** You understand Licensor is under no obligation to
-   accept, merge, or ship your Contribution.
+When you open your first pull request, a **CLA Assistant bot** will
+post a comment asking you to confirm you've read and agree to
+[`cla.md`](cla.md). Reply to that comment with exactly:
 
-4. **No warranty.** Contributions are provided "as is" without warranty
-   of any kind.
+> `I have read the CLA Document and I hereby sign the CLA`
 
-5. **Identity.** You are at least the age of majority in your
-   jurisdiction, or your parent/guardian has reviewed and accepted this
-   CLA on your behalf.
+Your signature is recorded against your GitHub handle. You only need
+to sign once per handle — subsequent PRs skip the prompt.
 
-If you are contributing on behalf of a company, union, or other
-organization, you represent that you are authorized to submit the
-Contribution and bind that organization to this CLA.
+If you're contributing on behalf of a company and need a **Corporate
+CLA** executed before the PR, email
+[licensing@structupath.ai](mailto:licensing@structupath.ai) first.
 
-**No separate signing is required.** Opening a pull request or merging
-a patch constitutes acceptance.
-
-If you cannot agree to this CLA — for example because your employer
-prohibits CLAs — please do not submit Contributions. You may still open
-issues describing the problem.
+If you cannot agree to the CLA (e.g. employer policy prohibits it),
+please open an issue describing the problem instead of submitting code.
 
 ---
 

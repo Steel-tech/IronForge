@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 /**
  * Achievement definitions + rarity styling.
  * Conditions are pure functions of the extended UserState — they receive

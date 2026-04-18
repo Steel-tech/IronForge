@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { type UserState, DEFAULT_STATE } from "@/lib/types/wizard";
 
 const STORAGE_KEY = "ironforge_user_state";

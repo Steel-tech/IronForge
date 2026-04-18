@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { Fragment } from "react";
 import { STATE_REGISTRY, type StateData } from "@/content/state-registry";
 import { Check, X, Minus } from "lucide-react";

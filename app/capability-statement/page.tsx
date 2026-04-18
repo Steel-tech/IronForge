@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";

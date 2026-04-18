@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { useMemo } from "react";
 import type { Phase, Step, CostRange, Resource } from "@/lib/types/content";
 import type { UserState } from "@/lib/types/wizard";

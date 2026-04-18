@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { useEffect, useMemo, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { loadUserState, saveUserState } from "@/lib/store/user-profile";

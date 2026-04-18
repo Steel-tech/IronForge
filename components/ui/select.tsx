@@ -1,5 +1,7 @@
 "use client"
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 

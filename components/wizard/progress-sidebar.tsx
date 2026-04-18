@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { PHASE_DEFINITIONS, getPhaseContent } from "@/content/phases";
 import type { StateCode } from "@/content/phases";
 import type { WizardProgress } from "@/lib/types/wizard";

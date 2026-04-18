@@ -1,5 +1,7 @@
 "use client";
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Steel-Tech / StructuPath
 import { formatCurrency, formatCurrencyPrecise } from "@/lib/estimator/calculate";
 import type { EstimateInput, EstimateResult } from "@/lib/types/estimator";
 import { STATE_REGISTRY } from "@/content/state-registry";
