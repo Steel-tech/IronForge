@@ -22,6 +22,14 @@ export const PROJECT_TYPE_FACTOR: Record<ProjectType, number> = {
 /** Monopolistic workers'-comp states (state-run fund, higher WC burden). */
 export const MONOPOLISTIC_WC_STATES = new Set(["WA", "OH", "ND", "WY"]);
 
+/**
+ * Upper bound for any single numeric input. No real estimate uses a billion of
+ * any unit (tons, beams, dollars/hr), and clamping here keeps downstream
+ * products well inside the float range — a pasted/tampered 1e307 can't overflow
+ * the bid to Infinity/NaN.
+ */
+export const MAX_FIELD_VALUE = 1e9;
+
 export const ESTIMATE_CONSTANTS = {
   // Labor
   PIECE_MAN_HOURS: 1.0, // MH per piece, baseline

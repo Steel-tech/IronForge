@@ -13,13 +13,19 @@ import type { EstimateInput, EstimateResult } from "@/lib/types/estimator";
 import { STATE_REGISTRY } from "@/content/state-registry";
 import {
   ESTIMATE_CONSTANTS as C,
+  MAX_FIELD_VALUE,
   MONOPOLISTIC_WC_STATES,
   PROJECT_TYPE_FACTOR,
 } from "@/lib/estimator/constants";
 
-/** Coerce a numeric input to a safe non-negative value (negatives/NaN → 0). */
+/**
+ * Coerce a numeric input to a safe value: negatives/NaN become 0, and finite
+ * values are capped at MAX_FIELD_VALUE so an absurd input (e.g. a pasted or
+ * tampered 1e307) can't overflow a downstream product to Infinity/NaN.
+ */
 function clampNonNegative(n: number): number {
-  return Number.isFinite(n) && n > 0 ? n : 0;
+  if (!Number.isFinite(n) || n <= 0) return 0;
+  return Math.min(n, MAX_FIELD_VALUE);
 }
 
 /** Burden rate (%) covering payroll taxes, WC, GL, benefits. */

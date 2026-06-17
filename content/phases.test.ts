@@ -4,6 +4,8 @@ import { describe, it, expect } from "vitest";
 import {
   getPhaseContent,
   getStepByIds,
+  getNextStep,
+  getPrevStep,
   PHASE_DEFINITIONS,
   type StateCode,
 } from "@/content/phases";
@@ -74,5 +76,58 @@ describe("getPhaseContent — content contract", () => {
     const found = getStepByIds("contractor-licensing", firstId, state);
     expect(found).not.toBeNull();
     expect(found?.id).toBe(firstId);
+  });
+});
+
+describe("getPhaseContent — unavailable + static phases", () => {
+  it("returns a valid merged phase carrying the unavailable step for an unknown code", () => {
+    const phase = getPhaseContent("surety-bonding", "ZZ" as StateCode);
+    assertValidPhase(phase);
+    expect(phase.steps.some((s) => s.id === "data-unavailable")).toBe(true);
+  });
+
+  it("returns non-empty legal-federal content for any state", () => {
+    assertValidPhase(getPhaseContent("legal-federal", "TX"));
+  });
+
+  it("returns a defined, empty-step phase for an unknown phase id (no throw)", () => {
+    const phase = getPhaseContent("does-not-exist", "TX");
+    expect(phase).toBeDefined();
+    expect(phase.steps).toEqual([]);
+  });
+});
+
+describe("wizard navigation (getNextStep / getPrevStep)", () => {
+  const state: StateCode = "TX";
+
+  it("advances to the next step within a phase", () => {
+    const firstPhase = PHASE_DEFINITIONS[0].id;
+    const steps = getPhaseContent(firstPhase, state).steps;
+    expect(steps.length).toBeGreaterThanOrEqual(2);
+    expect(getNextStep(firstPhase, steps[0].id, state)).toEqual({
+      phaseId: firstPhase,
+      stepId: steps[1].id,
+    });
+  });
+
+  it("crosses to the next phase from the last step of a phase", () => {
+    const firstPhase = PHASE_DEFINITIONS[0].id;
+    const secondPhase = PHASE_DEFINITIONS[1].id;
+    const steps = getPhaseContent(firstPhase, state).steps;
+    const next = getNextStep(firstPhase, steps[steps.length - 1].id, state);
+    expect(next?.phaseId).toBe(secondPhase);
+    expect(next?.stepId).toBe(getPhaseContent(secondPhase, state).steps[0].id);
+  });
+
+  it("returns null past the last step of the last phase", () => {
+    const lastPhase = PHASE_DEFINITIONS[PHASE_DEFINITIONS.length - 1].id;
+    const steps = getPhaseContent(lastPhase, state).steps;
+    expect(getNextStep(lastPhase, steps[steps.length - 1].id, state)).toBeNull();
+  });
+
+  it("returns null before the first step of the first phase", () => {
+    const firstPhase = PHASE_DEFINITIONS[0].id;
+    const firstId = getPhaseContent(firstPhase, state).steps[0].id;
+    expect(getPrevStep(firstPhase, firstId, state)).toBeNull();
   });
 });

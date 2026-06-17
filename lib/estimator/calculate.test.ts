@@ -160,5 +160,78 @@ describe("calculateEstimate", () => {
       );
       expect(r.labor.totalLabor).toBeGreaterThanOrEqual(0);
     });
+
+    it("caps absurdly large finite inputs so every output stays finite", () => {
+      const r = calculateEstimate(
+        inputFor({
+          state: "TX",
+          tonnage: 1e307,
+          baseWageRate: 1e307,
+          beamCount: 1e307,
+          deckingSqft: 1e307,
+          includesDecking: true,
+        }),
+      );
+      for (const value of Object.values(r.summary)) {
+        expect(Number.isFinite(value)).toBe(true);
+      }
+      expect(r.summary.totalBid).toBeGreaterThan(0);
+    });
+  });
+
+  describe("cost-line coverage", () => {
+    it("adds each optional cost line when its flag is on", () => {
+      const r = calculateEstimate(
+        inputFor({
+          state: "TX",
+          tonnage: 40,
+          beamCount: 80,
+          deckingSqft: 2000,
+          includesDecking: true,
+          includesStairs: true,
+          includesMisc: true,
+          needsWelding: true,
+          needsLift: true,
+          durationWeeks: 5,
+        }),
+      );
+      expect(r.materials.weldingConsumables).toBe(
+        40 * C.WELDING_CONSUMABLES_PER_TON,
+      );
+      expect(r.materials.deckingMaterial).toBe(2000 * C.DECKING_PER_SQFT);
+      expect(r.equipment.liftCost).toBe(C.LIFT_PER_WEEK * 5);
+      expect(r.equipment.weldingEquipCost).toBe(C.WELDING_EQUIP_PER_WEEK * 5);
+      expect(r.materials.miscMaterials).toBe(
+        C.MISC_BASE_FLAT +
+          40 * C.MISC_BASE_PER_TON +
+          C.MISC_STAIRS +
+          C.MISC_EXTRAS,
+      );
+    });
+
+    it("charges a lower labor burden for non-union than union", () => {
+      const base: Partial<EstimateInput> = {
+        state: "TX",
+        tonnage: 40,
+        beamCount: 80,
+      };
+      const union = calculateEstimate(inputFor({ ...base, isUnion: true }));
+      const nonUnion = calculateEstimate(inputFor({ ...base, isUnion: false }));
+      expect(nonUnion.labor.burdenRate).toBeLessThan(union.labor.burdenRate);
+    });
+
+    it("computes cost-per-sqft when decking square footage is present", () => {
+      const r = calculateEstimate(
+        inputFor({
+          state: "TX",
+          tonnage: 40,
+          beamCount: 80,
+          deckingSqft: 2000,
+          includesDecking: true,
+        }),
+      );
+      expect(r.summary.costPerSqft).toBe(round2(r.summary.totalBid / 2000));
+      expect(r.summary.costPerSqft).toBeGreaterThan(0);
+    });
   });
 });
