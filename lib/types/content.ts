@@ -42,3 +42,18 @@ export interface CostRange {
   max: number;
   notes: string;
 }
+
+/**
+ * Provenance metadata for a state's regulatory data. Present and populated
+ * means a human verified the figures against the cited source on `lastVerified`;
+ * absent means the data is machine-generated and not independently verified,
+ * which the UI must surface (see the legal disclaimer).
+ */
+export interface StateVerification {
+  /** ISO date (YYYY-MM-DD) the data was last verified against the source. */
+  lastVerified?: string;
+  /** Primary authoritative source the figures were verified against. */
+  sourceUrl?: string;
+  /** When the cited regulation/fee took effect, if known. */
+  effectiveDate?: string;
+}
