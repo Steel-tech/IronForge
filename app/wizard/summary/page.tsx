@@ -23,6 +23,12 @@ import type { StateCode } from "@/content/phases";
 import type { UserState } from "@/lib/types/wizard";
 import { DEFAULT_STATE } from "@/lib/types/wizard";
 import { STATE_REGISTRY } from "@/content/state-registry";
+import {
+  toProgressJson,
+  toProgressCsv,
+  downloadTextFile,
+  type ProgressExport,
+} from "@/lib/export/progress-export";
 
 import { IBeamIcon } from "@/components/ui/ibeam-icon";
 import { CountUp } from "@/components/ui/count-up";
@@ -172,6 +178,46 @@ export default function SummaryPage() {
 
   const stateCode = userState.profile.state as StateCode;
   const stateData = STATE_REGISTRY[stateCode];
+
+  const buildExport = (): ProgressExport => ({
+    generatedAt: new Date().toISOString(),
+    state: stateCode,
+    stateName: stateData?.name ?? stateCode,
+    businessName: userState.profile.businessName || "",
+    overallPercent: summary.overallPercent,
+    completedItems: summary.completedItems,
+    totalItems: summary.totalItems,
+    phasesComplete: summary.phasesComplete,
+    totalPhases: PHASE_DEFINITIONS.length,
+    startedAt: summary.startedAtIso,
+    phases: summary.phaseSummaries.map((p) => ({
+      id: p.id,
+      title: p.title,
+      totalSteps: p.totalSteps,
+      visitedSteps: p.visitedSteps,
+      totalItems: p.totalItems,
+      completedItems: p.completedItems,
+      minCost: p.minCost,
+      maxCost: p.maxCost,
+    })),
+  });
+
+  const handleExport = (format: "json" | "csv") => {
+    const data = buildExport();
+    if (format === "json") {
+      downloadTextFile(
+        `ironforge-progress-${stateCode}.json`,
+        toProgressJson(data),
+        "application/json",
+      );
+    } else {
+      downloadTextFile(
+        `ironforge-progress-${stateCode}.csv`,
+        toProgressCsv(data),
+        "text/csv",
+      );
+    }
+  };
 
   // Cost rows for breakdown
   const costRows: CostRow[] = summary.phaseSummaries.map((p) => ({
@@ -440,26 +486,33 @@ export default function SummaryPage() {
             </div>
           </button>
 
-          {/* Export placeholder */}
-          <button
-            disabled
-            title="Export feature coming soon"
-            className="group relative text-left bg-cyber-dark border border-cyber-border rounded-xl p-5 transition-all overflow-hidden opacity-60 cursor-not-allowed"
-          >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-text-muted/40 to-transparent" />
+          {/* Export */}
+          <div className="group relative text-left bg-cyber-dark border border-cyber-border hover:border-neon-green/40 rounded-xl p-5 transition-all overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-green/40 to-transparent" />
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-text-muted">
-                Soon
+              <span className="text-[10px] font-mono uppercase tracking-widest text-neon-green">
+                Export
               </span>
-              <Download className="w-4 h-4 text-text-muted" />
+              <Download className="w-4 h-4 text-neon-green" />
             </div>
-            <div className="text-sm font-mono font-semibold text-text-secondary mb-1">
+            <div className="text-sm font-mono font-semibold text-text-primary mb-3">
               Export Progress
             </div>
-            <div className="text-[10px] font-mono text-text-muted">
-              JSON/CSV download (coming soon)
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleExport("json")}
+                className="flex-1 px-3 py-1.5 rounded-lg font-mono text-[11px] tracking-wide border border-neon-green/30 text-neon-green hover:bg-neon-green/10 transition-all"
+              >
+                JSON
+              </button>
+              <button
+                onClick={() => handleExport("csv")}
+                className="flex-1 px-3 py-1.5 rounded-lg font-mono text-[11px] tracking-wide border border-neon-green/30 text-neon-green hover:bg-neon-green/10 transition-all"
+              >
+                CSV
+              </button>
             </div>
-          </button>
+          </div>
         </section>
 
         {/* ═══════════ FOOTER NAV ═══════════ */}
