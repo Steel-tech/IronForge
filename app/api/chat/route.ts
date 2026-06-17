@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import Anthropic from "@anthropic-ai/sdk";
+import { MODELS } from "@/lib/ai/models";
 import { buildSystemPrompt } from "@/lib/ai/system-prompts";
 import { getPhaseContent } from "@/content/phases";
 import type { StateCode } from "@/content/phases";
@@ -199,7 +200,7 @@ export async function POST(req: Request) {
     const systemPrompt = buildSystemPrompt(step, profile, phaseContent.title);
 
     const stream = await client.messages.stream({
-      model: "claude-sonnet-4-20250514",
+      model: MODELS.MENTOR,
       max_tokens: 1024,
       system: systemPrompt,
       messages: messages.map((m) => ({

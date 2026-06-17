@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import Anthropic from "@anthropic-ai/sdk";
+import { MODELS } from "@/lib/ai/models";
 import { buildOnboardingPrompt } from "@/lib/ai/onboarding-prompt";
 
 // ── API key (read at module load, checked per-request) ──────
@@ -128,7 +129,7 @@ export async function POST(req: Request) {
     const systemPrompt = buildOnboardingPrompt();
 
     const stream = await client.messages.stream({
-      model: "claude-sonnet-4-20250514",
+      model: MODELS.MENTOR,
       max_tokens: 512,
       system: systemPrompt,
       messages: messages.map((m) => ({
