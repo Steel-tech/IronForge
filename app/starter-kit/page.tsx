@@ -162,7 +162,7 @@ export default function StarterKitPage() {
           </div>
         )}
 
-        {(previewMode || !hydrated) && hydrated && (
+        {previewMode && hydrated && (
           <div
             className={previewMode ? "animate-fade-in" : "no-print"}
             style={{ marginTop: "1rem" }}
