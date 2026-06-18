@@ -4,12 +4,20 @@
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import { useEffect, useRef } from "react";
 
+import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
+
 interface MatrixRainProps {
   className?: string;
   opacity?: number;
   color?: string;
   speed?: number;
 }
+
+// Cap the effective frame rate so the rain never burns a full 60fps of
+// CPU/GPU. ~30fps keeps the effect smooth enough while halving the work on
+// low-power devices.
+const TARGET_FPS = 30;
+const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
 export function MatrixRain({
   className = "",
@@ -18,6 +26,7 @@ export function MatrixRain({
   speed = 1,
 }: MatrixRainProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,6 +37,7 @@ export function MatrixRain({
 
     let animationId: number;
     let columns: number[] = [];
+    let lastFrame = 0;
 
     const chars =
       "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF⚒⛓⚙";
@@ -44,7 +54,9 @@ export function MatrixRain({
         .map(() => Math.random() * -100);
     }
 
-    function draw() {
+    // Render one frame of the rain. Pulled out so we can paint a single
+    // static frame for reduced-motion users without entering the rAF loop.
+    function renderFrame() {
       if (!ctx || !canvas) return;
 
       ctx.fillStyle = `rgba(10, 10, 15, 0.05)`;
@@ -72,26 +84,63 @@ export function MatrixRain({
         }
         columns[i] += speed;
       }
+    }
 
-      animationId = requestAnimationFrame(draw);
+    // Frame-rate-capped loop: rAF still drives timing (so it pauses when the
+    // tab is hidden and stays in sync with the display), but we only repaint
+    // once at least FRAME_INTERVAL has elapsed.
+    function loop(now: number) {
+      animationId = requestAnimationFrame(loop);
+      if (now - lastFrame < FRAME_INTERVAL) return;
+      lastFrame = now;
+      renderFrame();
     }
 
     resize();
-    draw();
 
-    const handleResize = () => resize();
+    const handleResize = () => {
+      resize();
+      // Reduced-motion users get a fresh static frame after a resize.
+      if (reducedMotion) renderFrame();
+    };
     window.addEventListener("resize", handleResize);
+
+    // Reduced motion: paint one calm static frame and never start the loop.
+    if (reducedMotion) {
+      renderFrame();
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+
+    // Pause the loop while the tab is hidden — no point animating an
+    // unfocused tab — and resume on return. Reset the frame clock so we
+    // don't fast-forward a backlog of frames on resume.
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId);
+      } else {
+        lastFrame = 0;
+        animationId = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    if (!document.hidden) {
+      animationId = requestAnimationFrame(loop);
+    }
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [color, speed]);
+  }, [color, speed, reducedMotion]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute inset-0 w-full h-full pointer-events-none ${className}`}
+      className={`matrix-rain-container absolute inset-0 w-full h-full pointer-events-none ${className}`}
       style={{ opacity }}
     />
   );
