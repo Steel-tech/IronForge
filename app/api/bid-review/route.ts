@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import Anthropic from "@anthropic-ai/sdk";
+import { MODELS } from "@/lib/ai/models";
 import { buildBidReviewPrompt } from "@/lib/ai/bid-review-prompt";
 
 // ── API key (read at module load, checked per-request) ──────
@@ -122,7 +123,7 @@ ${cleaned}
 Produce the full structured analysis in the format specified in your system prompt.`;
 
     const stream = await client.messages.stream({
-      model: "claude-sonnet-4-20250514",
+      model: MODELS.ANALYSIS,
       max_tokens: 4096,
       system: systemPrompt,
       messages: [{ role: "user", content: userMessage }],
