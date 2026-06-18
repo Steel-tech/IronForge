@@ -32,7 +32,6 @@ Object.assign(STATE_ALIASES, {
   "penna": "PA",
   "n.y.": "NY",
   "n.j.": "NJ",
-  "d.c.": "DC", // will fall through to not-found
   "nyc": "NY",
 });
 
