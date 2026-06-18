@@ -96,7 +96,13 @@ export default function RootLayout({
       lang="en"
       className={cn(jetbrainsMono.variable, spaceGrotesk.variable)}
     >
-      <body className="bg-cyber-black text-text-primary antialiased font-sans scanlines">
+      {/* suppressHydrationWarning: browser extensions (Grammarly, etc.) inject
+          attributes like data-gr-ext-installed onto <body> after SSR. This is
+          shallow — it only ignores body's own attribute diff, not children. */}
+      <body
+        className="bg-cyber-black text-text-primary antialiased font-sans scanlines"
+        suppressHydrationWarning
+      >
         <PwaRegister />
         {children}
         <ToastProvider />
