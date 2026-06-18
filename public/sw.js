@@ -7,7 +7,7 @@
  *   - Cache-first for static assets (_next/static, fonts, images)
  */
 
-const VERSION = "ironforge-v1";
+const VERSION = "ironforge-v2";
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 
@@ -77,17 +77,11 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // API: network-first, no offline fallback (let the app surface errors)
+  // API: network-only. Never cache API responses — a stale cached answer from
+  // the AI endpoints (or regulatory state data) would be misleading. Offline
+  // simply fails and the app surfaces the error.
   if (isApiRequest(url)) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
-          return response;
-        })
-        .catch(() => caches.match(request)),
-    );
+    event.respondWith(fetch(request));
     return;
   }
 
