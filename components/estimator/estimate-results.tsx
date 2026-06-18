@@ -34,7 +34,7 @@ export function EstimateResults({ input, result }: Props) {
         <div className="relative flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="text-[10px] font-mono text-text-muted tracking-[0.3em] uppercase mb-2">
-              // Total Bid Estimate
+              {"// Total Bid Estimate"}
             </div>
             <div className="font-mono font-bold text-text-primary tracking-tight">
               <span className="text-5xl md:text-6xl text-neon-cyan text-glow-cyan">

@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
+import { useState } from "react";
 import { AlertTriangle } from "lucide-react";
 import type { VaultDocument } from "@/lib/types/vault";
 
@@ -16,7 +17,8 @@ interface Bucket {
 }
 
 export function ExpirationAlerts({ documents }: ExpirationAlertsProps) {
-  const now = Date.now();
+  // Captured once at mount — Date.now() in render is impure.
+  const [now] = useState(() => Date.now());
   const thirty = 30 * 86_400_000;
   const seven = 7 * 86_400_000;
 
