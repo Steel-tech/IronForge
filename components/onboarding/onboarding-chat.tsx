@@ -10,7 +10,7 @@ import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { MatrixRain } from "@/components/ui/matrix-rain";
 import { TronGrid } from "@/components/ui/tron-grid";
 import { DecryptedText } from "@/components/ui/decrypted-text";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 import { saveUserState } from "@/lib/store/user-profile";
 import type { UserProfile } from "@/lib/types/wizard";
 import { DEFAULT_PROFILE, DEFAULT_STATE } from "@/lib/types/wizard";
@@ -201,8 +201,8 @@ export function OnboardingChat({ onExit }: OnboardingChatProps) {
    */
   function fallbackQuestionFor(nextStage: Stage, updated: UserProfile): string {
     const stateName =
-      updated.state && STATE_REGISTRY[updated.state]
-        ? STATE_REGISTRY[updated.state].name
+      updated.state && STATE_INDEX[updated.state]
+        ? STATE_INDEX[updated.state].name
         : "";
     switch (nextStage) {
       case "experience":
@@ -224,8 +224,8 @@ export function OnboardingChat({ onExit }: OnboardingChatProps) {
 
   function buildSummary(p: UserProfile): string {
     const stateName =
-      p.state && STATE_REGISTRY[p.state]
-        ? STATE_REGISTRY[p.state].name
+      p.state && STATE_INDEX[p.state]
+        ? STATE_INDEX[p.state].name
         : "—";
     const lines = [
       "**Here's your profile:**",

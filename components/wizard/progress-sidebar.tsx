@@ -5,7 +5,7 @@
 import { PHASE_DEFINITIONS, getPhaseContent } from "@/content/phases";
 import type { StateCode } from "@/content/phases";
 import type { WizardProgress } from "@/lib/types/wizard";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Check, Circle, GitCompare } from "lucide-react";
 import { IBeamIcon } from "@/components/ui/ibeam-icon";
@@ -177,8 +177,8 @@ export function ProgressSidebar({
           </Link>
           <div className="flex items-center justify-between text-[10px] font-mono text-text-muted">
             <span>
-              {STATE_REGISTRY[userState]
-                ? `${STATE_REGISTRY[userState].emoji} ${STATE_REGISTRY[userState].name.toUpperCase()}`
+              {STATE_INDEX[userState]
+                ? `${STATE_INDEX[userState].emoji} ${STATE_INDEX[userState].name.toUpperCase()}`
                 : userState}
             </span>
             <Link

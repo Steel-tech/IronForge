@@ -9,7 +9,7 @@ import {
   type ProjectType,
   type GcSize,
 } from "@/content/gc-directory";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 
 export interface GcFilters {
   search: string;
@@ -33,7 +33,7 @@ interface GcSearchFiltersProps {
   resultCount: number;
 }
 
-const STATES = Object.values(STATE_REGISTRY).sort((a, b) =>
+const STATES = Object.values(STATE_INDEX).sort((a, b) =>
   a.name.localeCompare(b.name),
 );
 

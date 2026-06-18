@@ -4,9 +4,9 @@
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import { useMemo, useState } from "react";
 import { ChevronDown, Plus, X, Search } from "lucide-react";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 
-const ALL_STATES = Object.values(STATE_REGISTRY).sort((a, b) =>
+const ALL_STATES = Object.values(STATE_INDEX).sort((a, b) =>
   a.name.localeCompare(b.name),
 );
 
@@ -77,7 +77,7 @@ export function StateSelector({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {slots.map((code, idx) => {
-          const state = code ? STATE_REGISTRY[code] : null;
+          const state = code ? STATE_INDEX[code] : null;
           const isOpen = openSlot === idx;
           const isAddSlot = !state;
           const disabled = isAddSlot && idx > selected.length;

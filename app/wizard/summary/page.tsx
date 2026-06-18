@@ -22,7 +22,7 @@ import { PHASE_DEFINITIONS, getPhaseContent } from "@/content/phases";
 import type { StateCode } from "@/content/phases";
 import type { UserState } from "@/lib/types/wizard";
 import { DEFAULT_STATE } from "@/lib/types/wizard";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 import {
   toProgressJson,
   toProgressCsv,
@@ -177,7 +177,7 @@ export default function SummaryPage() {
   if (!loaded || !userState.profile.state || !summary) return null;
 
   const stateCode = userState.profile.state as StateCode;
-  const stateData = STATE_REGISTRY[stateCode];
+  const stateData = STATE_INDEX[stateCode];
 
   const buildExport = (): ProgressExport => ({
     generatedAt: new Date().toISOString(),
