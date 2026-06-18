@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
+import { useMemo } from "react";
 import { Printer } from "lucide-react";
 import { formatCurrency, formatCurrencyPrecise } from "@/lib/estimator/calculate";
 import type { EstimateInput, EstimateResult } from "@/lib/types/estimator";
@@ -18,11 +19,19 @@ export function EstimatePdf({
   result,
   companyName = "IronForge Estimator",
 }: Props) {
-  const today = new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // Stamp the date + estimate id once at mount — computing them during render
+  // is impure (the id would change on every re-render).
+  const { today, estimateId } = useMemo(() => {
+    const now = new Date();
+    return {
+      today: now.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      estimateId: now.getTime().toString().slice(-6),
+    };
+  }, []);
   const stateData = input.state ? STATE_REGISTRY[input.state] : undefined;
 
   function handlePrint() {
@@ -52,8 +61,7 @@ export function EstimatePdf({
               <strong>Date:</strong> {today}
             </div>
             <div>
-              <strong>Estimate #:</strong> EST-
-              {Date.now().toString().slice(-6)}
+              <strong>Estimate #:</strong> EST-{estimateId}
             </div>
           </div>
         </header>
