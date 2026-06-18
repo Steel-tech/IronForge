@@ -81,6 +81,12 @@ describe("toProgressCsv", () => {
     expect(lines[1]).toContain("Business Formation");
   });
 
+  it("writes an exact data row for a phase", () => {
+    const lines = toProgressCsv(sample()).split("\n");
+    expect(lines[1]).toBe("Business Formation,4,4,8,8,500,1200");
+    expect(lines[2]).toBe("Contractor Licensing,1,3,2,12,300,900");
+  });
+
   it("escapes a phase title containing a comma", () => {
     const csv = toProgressCsv(
       sample({
@@ -99,6 +105,46 @@ describe("toProgressCsv", () => {
       }),
     );
     expect(csv).toContain('"Legal, Federal"');
+  });
+
+  it("doubles embedded quotes per RFC 4180", () => {
+    const csv = toProgressCsv(
+      sample({
+        phases: [
+          {
+            id: "x",
+            title: 'He said "go"',
+            totalSteps: 1,
+            visitedSteps: 1,
+            totalItems: 1,
+            completedItems: 1,
+            minCost: 0,
+            maxCost: 0,
+          },
+        ],
+      }),
+    );
+    expect(csv).toContain('"He said ""go"""');
+  });
+
+  it("wraps a value containing a newline so the row is not split", () => {
+    const csv = toProgressCsv(
+      sample({
+        phases: [
+          {
+            id: "x",
+            title: "Line1\nLine2",
+            totalSteps: 1,
+            visitedSteps: 1,
+            totalItems: 1,
+            completedItems: 1,
+            minCost: 0,
+            maxCost: 0,
+          },
+        ],
+      }),
+    );
+    expect(csv).toContain('"Line1\nLine2"');
   });
 
   it("is well-formed (header only) for empty progress", () => {

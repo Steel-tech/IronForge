@@ -63,6 +63,38 @@ describe("readChatStream", () => {
     expect(progress).toEqual(["Hel", "Hello"]);
   });
 
+  it("reassembles a frame split mid-line across chunk boundaries", async () => {
+    const progress: string[] = [];
+    const full = await readChatStream(
+      streamFrom([
+        'data: {"text":"Hel', // partial line — no newline yet
+        'lo"}\n\n',
+        "data: [DONE]\n\n",
+      ]),
+      (p) => progress.push(p),
+    );
+    expect(full).toBe("Hello");
+    expect(progress).toEqual(["Hello"]);
+  });
+
+  it("handles multiple frames delivered in a single chunk", async () => {
+    const progress: string[] = [];
+    const full = await readChatStream(
+      streamFrom(['data: {"text":"a"}\n\ndata: {"text":"b"}\n\n']),
+      (p) => progress.push(p),
+    );
+    expect(full).toBe("ab");
+    expect(progress).toEqual(["a", "ab"]);
+  });
+
+  it("flushes a final frame that arrives without a trailing newline", async () => {
+    const full = await readChatStream(
+      streamFrom(['data: {"text":"end"}']),
+      () => {},
+    );
+    expect(full).toBe("end");
+  });
+
   it("returns an empty string when the stream carries no text frames", async () => {
     const full = await readChatStream(streamFrom(["data: [DONE]\n\n"]), () => {});
     expect(full).toBe("");

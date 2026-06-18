@@ -36,15 +36,30 @@ export async function readChatStream(
   const reader = body.getReader();
   const decoder = new TextDecoder();
   let full = "";
+  let buffer = "";
+
+  const handleDelta = (delta: string) => {
+    full += delta;
+    onProgress(full);
+  };
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    parseSseChunk(decoder.decode(value, { stream: true }), (delta) => {
-      full += delta;
-      onProgress(full);
-    });
+    // SSE frames are not guaranteed to be chunk-aligned: a single `data:` line
+    // can be split across reads. Buffer until a newline, parse only complete
+    // lines, and carry the trailing partial line into the next read.
+    buffer += decoder.decode(value, { stream: true });
+    const lastNewline = buffer.lastIndexOf("\n");
+    if (lastNewline === -1) continue;
+    parseSseChunk(buffer.slice(0, lastNewline + 1), handleDelta);
+    buffer = buffer.slice(lastNewline + 1);
   }
+
+  // Flush the decoder's remainder plus any trailing frame that arrived without
+  // a final newline.
+  buffer += decoder.decode();
+  if (buffer) parseSseChunk(buffer, handleDelta);
 
   return full;
 }
