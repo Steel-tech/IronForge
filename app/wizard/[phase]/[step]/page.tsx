@@ -12,6 +12,7 @@ import {
   addMessage,
 } from "@/lib/store/chat-history";
 import { toggleChecklistItem, markStepVisited } from "@/lib/store/progress";
+import { readChatStream } from "@/lib/chat/stream";
 import {
   getPhaseContent,
   getNextStep,
@@ -474,36 +475,9 @@ export default function WizardStepPage({
       });
 
       if (!res.ok) throw new Error("Chat request failed");
+      if (!res.body) throw new Error("No response body");
 
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No response body");
-
-      const decoder = new TextDecoder();
-      let fullContent = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split("\n");
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
-            if (data === "[DONE]") continue;
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.text) {
-                fullContent += parsed.text;
-                setStreamingContent(fullContent);
-              }
-            } catch {
-              // Skip malformed JSON
-            }
-          }
-        }
-      }
+      const fullContent = await readChatStream(res.body, setStreamingContent);
 
       const assistantMsg: ChatMessage = {
         id: `msg-${Date.now()}-assistant`,
