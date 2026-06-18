@@ -2,15 +2,21 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Steel-Tech / StructuPath
+import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
+
 interface TronGridProps {
   className?: string;
 }
 
 export function TronGrid({ className = "" }: TronGridProps) {
+  const reducedMotion = useReducedMotion();
+
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
-      {/* Perspective grid floor */}
-      <div className="tron-floor" />
+      {/* Perspective grid floor — drop the depth layer for reduced-motion
+          users so the backdrop stays flat and calm. (Global CSS also hides
+          .tron-floor under prefers-reduced-motion; this keeps the DOM clean.) */}
+      {!reducedMotion && <div className="tron-floor" />}
 
       {/* Horizontal glow line */}
       <div

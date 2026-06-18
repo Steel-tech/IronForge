@@ -197,6 +197,9 @@ export async function POST(req: Request) {
     }
 
     // ── Build prompt from server-verified data ──
+    // Returns cache-controlled content blocks: a stable per-step prefix
+    // (cached) + a volatile per-user profile suffix. Repeat chat turns on
+    // the same step read the prefix from cache.
     const systemPrompt = buildSystemPrompt(step, profile, phaseContent.title);
 
     const stream = await client.messages.stream({
