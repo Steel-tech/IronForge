@@ -10,7 +10,7 @@ import {
   SUGGESTED_NAICS,
   emptyPastProject,
 } from "@/lib/types/cap-statement";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 import { Plus, Trash2, Upload, X } from "lucide-react";
 
 interface Props {
@@ -74,7 +74,7 @@ export function CapStatementForm({ data, onChange }: Props) {
     reader.readAsDataURL(file);
   }
 
-  const states = Object.values(STATE_REGISTRY).sort((a, b) =>
+  const states = Object.values(STATE_INDEX).sort((a, b) =>
     a.name.localeCompare(b.name),
   );
 

@@ -4,7 +4,7 @@
 // Copyright (C) 2026 Steel-Tech / StructuPath
 import { formatCurrency, formatCurrencyPrecise } from "@/lib/estimator/calculate";
 import type { EstimateInput, EstimateResult } from "@/lib/types/estimator";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 
 interface Props {
   input: EstimateInput;
@@ -14,7 +14,7 @@ interface Props {
 export function EstimateResults({ input, result }: Props) {
   const { labor, materials, equipment, overhead, summary } = result;
   const stateName = input.state
-    ? STATE_REGISTRY[input.state]?.name || input.state
+    ? STATE_INDEX[input.state]?.name || input.state
     : "—";
 
   // Slice percentages for the stacked bar.

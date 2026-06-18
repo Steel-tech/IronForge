@@ -10,7 +10,7 @@ import { IBeamIcon } from "@/components/ui/ibeam-icon";
 import { StateSelector } from "@/components/compare/state-selector";
 import { ComparisonTable } from "@/components/compare/comparison-table";
 import { ComparisonSummary } from "@/components/compare/comparison-summary";
-import { STATE_REGISTRY } from "@/content/state-registry";
+import { STATE_INDEX } from "@/content/state-index";
 
 const LS_KEY = "ironforge_compare_states";
 
@@ -23,7 +23,7 @@ function loadSelected(): string[] {
     if (!Array.isArray(parsed)) return [];
     return parsed
       .filter((c): c is string => typeof c === "string" && /^[A-Z]{2}$/.test(c))
-      .filter((c) => !!STATE_REGISTRY[c])
+      .filter((c) => !!STATE_INDEX[c])
       .slice(0, 3);
   } catch {
     return [];
@@ -113,7 +113,7 @@ export default function ComparePage() {
             <p className="text-xs">
               Comparing:{" "}
               {selected
-                .map((c) => STATE_REGISTRY[c]?.name ?? c)
+                .map((c) => STATE_INDEX[c]?.name ?? c)
                 .join(" vs. ")}
             </p>
           )}
