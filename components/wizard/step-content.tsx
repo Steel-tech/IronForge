@@ -8,6 +8,7 @@ import { Checklist } from "./checklist";
 import { CostCard } from "./cost-card";
 import { ResourceLink } from "./resource-link";
 import { CoachTip } from "./coach-tip";
+import { LegalDisclaimer } from "./legal-disclaimer";
 import {
   ChevronLeft,
   ChevronRight,
@@ -55,6 +56,7 @@ export function StepContent({
     <div className="flex-1 overflow-y-auto scrollbar-thin bg-cyber-black">
       <div className="max-w-3xl mx-auto p-6 md:p-8 space-y-8">
         {headerExtra}
+        <LegalDisclaimer stateCode={profile?.state} />
         {/* Header */}
         <div className="space-y-3 animate-fade-in-up">
           <div className="text-xs text-neon-cyan font-mono tracking-widest uppercase">

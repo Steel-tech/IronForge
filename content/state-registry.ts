@@ -6,6 +6,8 @@
  * Hand-crafted WA and OR content files take priority over generated content.
  */
 
+import type { StateVerification } from "@/lib/types/content";
+
 export interface StateData {
   code: string;
   name: string;
@@ -68,6 +70,11 @@ export interface StateData {
 
   // Misc
   uniqueNotes: string;
+
+  // Data provenance. Present + lastVerified set = human-verified against the
+  // source on that date. Absent = machine-generated, not independently
+  // verified (surfaced to the user via the legal disclaimer).
+  verification?: StateVerification;
 }
 
 export const STATE_REGISTRY: Record<string, StateData> = {
@@ -2050,6 +2057,10 @@ export const STATE_REGISTRY: Record<string, StateData> = {
   OR: {
     code: "OR",
     name: "Oregon",
+    verification: {
+      lastVerified: "2026-06-17",
+      sourceUrl: "https://www.oregon.gov/ccb/Pages/index.aspx",
+    },
     emoji: "🌲",
     llcFilingFee: 100,
     llcFilingUrl: "https://sos.oregon.gov/business/Pages/register.aspx",
@@ -2602,6 +2613,11 @@ export const STATE_REGISTRY: Record<string, StateData> = {
   WA: {
     code: "WA",
     name: "Washington",
+    verification: {
+      lastVerified: "2026-06-17",
+      sourceUrl:
+        "https://lni.wa.gov/licensing-permits/contractors/register-as-a-contractor/",
+    },
     emoji: "🌲",
     llcFilingFee: 200,
     llcFilingUrl: "https://ccfs.sos.wa.gov/#/",
@@ -2816,3 +2832,29 @@ export const STATE_REGISTRY: Record<string, StateData> = {
     uniqueNotes: "No state income tax. No state contractor license. Monopolistic workers' comp. Very minimal regulation. Popular for LLC formation. Energy sector construction is significant.",
   },
 };
+
+export interface StateVerificationView {
+  stateName: string;
+  /** True when a human verified this state's data (lastVerified is set). */
+  verified: boolean;
+  lastVerified?: string;
+  /** Authoritative source to point the user at (falls back to licensing URL). */
+  sourceUrl?: string;
+}
+
+/**
+ * Resolve verification status for a state code. Returns a well-formed view for
+ * every input: verified states carry their lastVerified date; unverified
+ * (machine-generated) states report verified=false so the UI shows a
+ * "not independently verified" notice rather than a misleading date.
+ */
+export function getStateVerification(code: string): StateVerificationView {
+  const state = STATE_REGISTRY[code];
+  const v = state?.verification;
+  return {
+    stateName: state?.name ?? code,
+    verified: Boolean(v?.lastVerified),
+    lastVerified: v?.lastVerified,
+    sourceUrl: v?.sourceUrl ?? state?.licensingUrl,
+  };
+}

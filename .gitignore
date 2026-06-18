@@ -20,6 +20,12 @@ tsconfig.tsbuildinfo
 # debug
 npm-debug.log*
 
+# test artifacts
+coverage/
+playwright-report/
+test-results/
+.playwright/
+
 # vercel
 .vercel
 node_modules

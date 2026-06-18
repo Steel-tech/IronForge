@@ -93,11 +93,59 @@ function getStateData(state: StateCode) {
   return STATE_REGISTRY[state];
 }
 
+/**
+ * A valid placeholder phase for a state we have no registry data for. Used
+ * instead of silently returning Washington's content — never present one
+ * state's regulatory facts as another's.
+ */
+function unavailablePhase(phaseId: string, state: string): Phase {
+  const def = PHASE_DEFINITIONS.find((p) => p.id === phaseId);
+  const topic = def?.title?.toLowerCase() ?? "this";
+  return {
+    id: phaseId,
+    title: def?.title ?? "Content Unavailable",
+    description: def?.description ?? "",
+    icon: def?.icon ?? "HelpCircle",
+    steps: [
+      {
+        id: "data-unavailable",
+        title: `Data unavailable for "${state}"`,
+        description:
+          `IronForge does not have ${topic} data for "${state}". Verify the ` +
+          "requirements directly with your state's licensing and revenue agencies.",
+        estimatedTime: "—",
+        estimatedCost: { min: 0, max: 0, notes: "Varies by state" },
+        checklist: [
+          {
+            id: "verify-with-state",
+            label: "Verify requirements with your state agency",
+            description:
+              "Contact your state's contractor licensing board and department " +
+              "of revenue for current requirements.",
+            required: true,
+          },
+        ],
+        resources: [],
+        tips: [],
+        warnings: [
+          "This state's data is unavailable in IronForge — do not rely on " +
+            "another state's requirements.",
+        ],
+        stateSpecific: true,
+        aiContext:
+          `No registry data exists for state code "${state}". Advise the user ` +
+          "to confirm requirements with their state's official agencies; do not " +
+          "fabricate state-specific figures.",
+      },
+    ],
+  };
+}
+
 function getBusinessFormation(state: StateCode): Phase {
   if (state === "WA") return waBusinessFormation;
   if (state === "OR") return orBusinessFormation;
   const data = getStateData(state);
-  if (!data) return waBusinessFormation; // fallback
+  if (!data) return unavailablePhase("business-formation", state);
   return generateBusinessFormation(data);
 }
 
@@ -105,7 +153,7 @@ function getContractorLicense(state: StateCode): Phase {
   if (state === "WA") return waContractorLicense;
   if (state === "OR") return orContractorLicense;
   const data = getStateData(state);
-  if (!data) return waContractorLicense;
+  if (!data) return unavailablePhase("contractor-licensing", state);
   return generateContractorLicense(data);
 }
 
@@ -113,7 +161,7 @@ function getBonding(state: StateCode): Phase {
   if (state === "WA") return waBonding;
   if (state === "OR") return orBonding;
   const data = getStateData(state);
-  if (!data) return waBonding;
+  if (!data) return unavailablePhase("surety-bonding", state);
   return generateBonding(data);
 }
 
@@ -121,7 +169,7 @@ function getInsurance(state: StateCode): Phase {
   if (state === "WA") return waInsurance;
   if (state === "OR") return orInsurance;
   const data = getStateData(state);
-  if (!data) return waInsurance;
+  if (!data) return unavailablePhase("insurance", state);
   return generateInsurance(data);
 }
 
@@ -129,13 +177,13 @@ function getCertifications(state: StateCode): Phase {
   if (state === "WA") return waCertifications;
   if (state === "OR") return orCertifications;
   const data = getStateData(state);
-  if (!data) return waCertifications;
+  if (!data) return unavailablePhase("certifications", state);
   return generateCertifications(data);
 }
 
 function getUnionSignatory(state: StateCode): Phase {
   const data = getStateData(state);
-  if (!data) return generateUnionSignatory(STATE_REGISTRY["WA"]);
+  if (!data) return unavailablePhase("union-signatory", state);
   return generateUnionSignatory(data);
 }
 
