@@ -32,3 +32,6 @@ node_modules
 
 # Compound Engineering machine-local config
 .compound-engineering/*.local.yaml
+
+# babysitter run data
+.a5c/
